@@ -124,117 +124,170 @@
       text-align: center;
     }
 
-    .skill-icon {
-      font-size: 2rem;
-      margin-bottom: 12px;
-    }
+    .skill-icon { font-size: 2rem; margin-bottom: 12px; }
     .skill-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #ff6060;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
+      font-size: 0.95rem; font-weight: 600;
+      color: #ff6060; letter-spacing: 0.5px; margin-bottom: 6px;
     }
-    .skill-desc {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.5;
-    }
+    .skill-desc { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
 
-    .info-card {
-      width: 100%;
-      max-width: 680px;
-      padding: 36px 44px;
-    }
+    .info-card { width: 100%; max-width: 680px; padding: 36px 44px; }
 
     .section-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: #cc2222;
-      margin-bottom: 16px;
+      font-size: 0.75rem; text-transform: uppercase;
+      letter-spacing: 2px; color: #cc2222; margin-bottom: 16px;
     }
 
-    .info-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+    .info-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
     .info-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      color: rgba(255,255,255,0.75);
-      font-size: 0.95rem;
-      line-height: 1.6;
+      display: flex; align-items: flex-start; gap: 12px;
+      color: rgba(255,255,255,0.75); font-size: 0.95rem; line-height: 1.6;
     }
-    .info-list li::before {
-      content: "▸";
-      color: #ff4040;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
+    .info-list li::before { content: "▸"; color: #ff4040; flex-shrink: 0; margin-top: 2px; }
 
-    footer {
-      color: rgba(255,255,255,0.25);
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-      padding: 10px;
-    }
+    footer { color: rgba(255,255,255,0.25); font-size: 0.75rem; letter-spacing: 1px; padding: 10px; }
 
     .accent-line {
-      width: 60px;
-      height: 3px;
+      width: 60px; height: 3px;
       background: linear-gradient(90deg, #ff2020, transparent);
+      border-radius: 2px; margin: 20px auto 0;
+    }
+
+    /* ── Music Player (top-left) ── */
+    #music-btn {
+      position: fixed;
+      top: 22px;
+      left: 22px;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,80,80,0.25);
+      border-radius: 30px;
+      padding: 8px 16px 8px 10px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      cursor: pointer;
+      transition: background 0.25s, box-shadow 0.25s;
+      user-select: none;
+    }
+    #music-btn:hover {
+      background: rgba(255,80,80,0.12);
+      box-shadow: 0 4px 20px rgba(255,40,40,0.2);
+    }
+
+    /* 音符アイコン丸 */
+    .music-icon {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #cc0000, #880000);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      box-shadow: 0 0 10px rgba(255,40,40,0.4);
+      flex-shrink: 0;
+      transition: box-shadow 0.3s;
+    }
+    #music-btn.playing .music-icon {
+      box-shadow: 0 0 18px rgba(255,40,40,0.7);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 12px rgba(255,40,40,0.5); }
+      50% { box-shadow: 0 0 24px rgba(255,80,80,0.9); }
+    }
+
+    .music-info { display: flex; flex-direction: column; gap: 1px; }
+    .music-label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .music-title {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.8);
+      font-weight: 500;
+      max-width: 160px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* 波形バー (playing時) */
+    .music-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 14px;
+      margin-left: 4px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    #music-btn.playing .music-bars { opacity: 1; }
+    .music-bars span {
+      display: block;
+      width: 3px;
+      background: #ff4040;
       border-radius: 2px;
-      margin: 20px auto 0;
+      animation: bar 0.8s ease-in-out infinite alternate;
+    }
+    .music-bars span:nth-child(1) { height: 5px; animation-delay: 0s; }
+    .music-bars span:nth-child(2) { height: 10px; animation-delay: 0.15s; }
+    .music-bars span:nth-child(3) { height: 7px; animation-delay: 0.3s; }
+    .music-bars span:nth-child(4) { height: 12px; animation-delay: 0.1s; }
+    @keyframes bar {
+      from { transform: scaleY(0.4); }
+      to { transform: scaleY(1.2); }
+    }
+    #music-btn:not(.playing) .music-bars span { animation: none; }
+
+    /* YouTube hidden iframe */
+    #yt-player {
+      position: fixed;
+      top: -9999px; left: -9999px;
+      width: 1px; height: 1px;
+      pointer-events: none;
+      opacity: 0;
     }
 
     /* ── SNS Fixed Icons ── */
     .sns-bar {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      align-items: center;
+      position: fixed; bottom: 28px; right: 28px;
+      z-index: 100; display: flex; flex-direction: column; gap: 14px; align-items: center;
     }
-
     .sns-bar a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 50%;
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.15);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
       text-decoration: none;
     }
-
-    .sns-bar a:hover {
-      transform: scale(1.18);
-      background: rgba(255,255,255,0.14);
-      box-shadow: 0 4px 20px rgba(255,255,255,0.1);
-    }
-
-    .sns-bar a svg {
-      width: 20px;
-      height: 20px;
-      fill: #ffffff;
-    }
+    .sns-bar a:hover { transform: scale(1.18); background: rgba(255,255,255,0.14); box-shadow: 0 4px 20px rgba(255,255,255,0.1); }
+    .sns-bar a svg { width: 20px; height: 20px; fill: #ffffff; }
   </style>
 </head>
 <body>
 
 <div class="bg"></div>
 <canvas id="canvas"></canvas>
+
+<!-- Music Button -->
+<div id="music-btn" onclick="toggleMusic()" title="BGM On/Off">
+  <div class="music-icon">♪</div>
+  <div class="music-info">
+    <span class="music-label">BGM</span>
+    <span class="music-title">Synthwave Mix</span>
+  </div>
+  <div class="music-bars">
+    <span></span><span></span><span></span><span></span>
+  </div>
+</div>
+
+<!-- Hidden YouTube player -->
+<div id="yt-player"></div>
 
 <div class="page">
 
@@ -296,29 +349,65 @@
 
 </div>
 
-<!-- SNS Icons (fixed bottom-right) -->
+<!-- SNS Icons -->
 <div class="sns-bar">
-
-  <!-- Discord -->
   <a href="https://discord.gg/EvWTjsGN7Z" target="_blank" rel="noopener" title="Discord">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z"/>
-    </svg>
+    <svg viewBox="0 0 24 24"><path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z"/></svg>
   </a>
-
-  <!-- GitHub -->
   <a href="https://github.com/tnndoritikinnsoma-sketch/" target="_blank" rel="noopener" title="GitHub">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-    </svg>
+    <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
   </a>
-
 </div>
 
+<!-- YouTube IFrame API -->
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
+  // ── YouTube Player ──
+  const VIDEO_ID = 'Cesg5bCKfaM';
+  let player;
+  let isPlaying = false;
+  let playerReady = false;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('yt-player', {
+      videoId: VIDEO_ID,
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        loop: 1,
+        playlist: VIDEO_ID,
+        fs: 0,
+        modestbranding: 1,
+        rel: 0,
+      },
+      events: {
+        onReady: () => { playerReady = true; },
+        onStateChange: (e) => {
+          if (e.data === YT.PlayerState.ENDED) {
+            player.playVideo();
+          }
+        }
+      }
+    });
+  }
+
+  function toggleMusic() {
+    if (!playerReady) return;
+    const btn = document.getElementById('music-btn');
+    if (isPlaying) {
+      player.pauseVideo();
+      isPlaying = false;
+      btn.classList.remove('playing');
+    } else {
+      player.playVideo();
+      isPlaying = true;
+      btn.classList.add('playing');
+    }
+  }
+
+  // ── Particles ──
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
-
   let W, H, particles = [];
 
   function resize() {
@@ -329,13 +418,7 @@
   resize();
 
   function randomColor() {
-    const palette = [
-      'rgba(255,40,40,',
-      'rgba(200,0,0,',
-      'rgba(255,100,100,',
-      'rgba(180,30,30,',
-      'rgba(255,180,180,',
-    ];
+    const palette = ['rgba(255,40,40,','rgba(200,0,0,','rgba(255,100,100,','rgba(180,30,30,','rgba(255,180,180,'];
     return palette[Math.floor(Math.random() * palette.length)];
   }
 
@@ -358,10 +441,7 @@
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fillStyle = p.color + p.alpha + ')';
       ctx.fill();
-
-      p.x += p.dx;
-      p.y += p.dy;
-
+      p.x += p.dx; p.y += p.dy;
       if (p.x < 0 || p.x > W) p.dx *= -1;
       if (p.y < 0 || p.y > H) p.dy *= -1;
     }
