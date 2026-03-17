@@ -16,34 +16,42 @@
     }
 
     #canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; z-index: 0;
     }
 
     .bg {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: radial-gradient(ellipse at top left, #3a0000 0%, #1a0000 40%, #0a0a0a 100%);
       z-index: 0;
     }
 
+    /* ── Pages ── */
     .page {
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
       min-height: 100vh;
-      display: flex;
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
+      padding: 80px 20px 60px;
       gap: 28px;
     }
+    .page.active { display: flex; }
 
+    /* Webhook page left-align */
+    #page-webhook {
+      justify-content: flex-start;
+      align-items: stretch;
+      max-width: 860px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ── Glass ── */
     .glass {
       background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255, 80, 80, 0.25);
+      border: 1px solid rgba(255,80,80,0.25);
       border-radius: 20px;
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -55,218 +63,217 @@
       box-shadow: 0 16px 48px rgba(220,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.1);
     }
 
-    .hero-card {
-      width: 100%;
-      max-width: 680px;
-      padding: 52px 48px;
-      text-align: center;
-    }
-
+    /* ── Hero ── */
+    .hero-card { width: 100%; max-width: 680px; padding: 52px 48px; text-align: center; }
     .avatar {
-      width: 90px; height: 90px;
-      border-radius: 50%;
+      width: 90px; height: 90px; border-radius: 50%;
       background: linear-gradient(135deg, #ff2a2a, #8b0000);
       display: flex; align-items: center; justify-content: center;
-      font-size: 2.2rem;
-      margin: 0 auto 24px;
+      font-size: 2.2rem; margin: 0 auto 24px;
       box-shadow: 0 0 30px rgba(255,40,40,0.45);
     }
-
     .name {
-      font-size: 2.6rem;
-      font-weight: 700;
-      letter-spacing: 2px;
+      font-size: 2.6rem; font-weight: 700; letter-spacing: 2px;
       background: linear-gradient(90deg, #ff6060, #ff2020, #cc0000);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 6px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 6px;
     }
-
-    .badge {
-      display: inline-flex;
-      gap: 10px;
-      margin-bottom: 22px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+    .badge { display: inline-flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; justify-content: center; }
     .badge span {
-      background: rgba(200,0,0,0.25);
-      border: 1px solid rgba(255,80,80,0.4);
-      border-radius: 30px;
-      padding: 4px 16px;
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: #ff8080;
+      background: rgba(200,0,0,0.25); border: 1px solid rgba(255,80,80,0.4);
+      border-radius: 30px; padding: 4px 16px; font-size: 0.8rem;
+      letter-spacing: 1px; text-transform: uppercase; color: #ff8080;
     }
-
-    .bio {
-      color: rgba(255,255,255,0.75);
-      font-size: 1rem;
-      line-height: 1.8;
-      max-width: 520px;
-      margin: 0 auto;
-    }
-
-    .cards-row {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-      max-width: 720px;
-      width: 100%;
-    }
-
-    .skill-card {
-      flex: 1 1 180px;
-      padding: 28px 24px;
-      text-align: center;
-    }
-
-    .skill-icon { font-size: 2rem; margin-bottom: 12px; }
-    .skill-title {
-      font-size: 0.95rem; font-weight: 600;
-      color: #ff6060; letter-spacing: 0.5px; margin-bottom: 6px;
-    }
-    .skill-desc { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
-
-    .info-card { width: 100%; max-width: 680px; padding: 36px 44px; }
-
-    .section-label {
-      font-size: 0.75rem; text-transform: uppercase;
-      letter-spacing: 2px; color: #cc2222; margin-bottom: 16px;
-    }
-
-    .info-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    .info-list li {
-      display: flex; align-items: flex-start; gap: 12px;
-      color: rgba(255,255,255,0.75); font-size: 0.95rem; line-height: 1.6;
-    }
-    .info-list li::before { content: "▸"; color: #ff4040; flex-shrink: 0; margin-top: 2px; }
-
-    footer { color: rgba(255,255,255,0.25); font-size: 0.75rem; letter-spacing: 1px; padding: 10px; }
-
+    .bio { color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.8; max-width: 520px; margin: 0 auto; }
     .accent-line {
       width: 60px; height: 3px;
       background: linear-gradient(90deg, #ff2020, transparent);
       border-radius: 2px; margin: 20px auto 0;
     }
 
-    /* ── Music Player (top-left) ── */
+    /* ── Cards row ── */
+    .cards-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; max-width: 720px; width: 100%; }
+    .skill-card { flex: 1 1 180px; padding: 28px 24px; text-align: center; }
+    .skill-icon { font-size: 2rem; margin-bottom: 12px; }
+    .skill-title { font-size: 0.95rem; font-weight: 600; color: #ff6060; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .skill-desc { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+    /* ── Info card ── */
+    .info-card { width: 100%; max-width: 680px; padding: 36px 44px; }
+    .section-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: #cc2222; margin-bottom: 16px; }
+    .info-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .info-list li { display: flex; align-items: flex-start; gap: 12px; color: rgba(255,255,255,0.75); font-size: 0.95rem; line-height: 1.6; }
+    .info-list li::before { content: "▸"; color: #ff4040; flex-shrink: 0; margin-top: 2px; }
+
+    footer { color: rgba(255,255,255,0.25); font-size: 0.75rem; letter-spacing: 1px; padding: 10px; }
+
+    /* ── Music Player ── */
     #music-btn {
-      position: fixed;
-      top: 22px;
-      left: 22px;
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      position: fixed; top: 22px; left: 22px; z-index: 200;
+      display: flex; align-items: center; gap: 10px;
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,80,80,0.25);
-      border-radius: 30px;
-      padding: 8px 16px 8px 10px;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      cursor: pointer;
-      transition: background 0.25s, box-shadow 0.25s;
+      border-radius: 30px; padding: 8px 16px 8px 10px;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      cursor: pointer; transition: background 0.25s, box-shadow 0.25s;
       user-select: none;
     }
-    #music-btn:hover {
-      background: rgba(255,80,80,0.12);
-      box-shadow: 0 4px 20px rgba(255,40,40,0.2);
-    }
-
-    /* 音符アイコン丸 */
+    #music-btn:hover { background: rgba(255,80,80,0.12); box-shadow: 0 4px 20px rgba(255,40,40,0.2); }
     .music-icon {
-      width: 32px; height: 32px;
-      border-radius: 50%;
+      width: 32px; height: 32px; border-radius: 50%;
       background: linear-gradient(135deg, #cc0000, #880000);
       display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-      box-shadow: 0 0 10px rgba(255,40,40,0.4);
-      flex-shrink: 0;
-      transition: box-shadow 0.3s;
+      font-size: 1rem; box-shadow: 0 0 10px rgba(255,40,40,0.4);
+      flex-shrink: 0; transition: box-shadow 0.3s;
     }
-    #music-btn.playing .music-icon {
-      box-shadow: 0 0 18px rgba(255,40,40,0.7);
-      animation: pulse 1.8s ease-in-out infinite;
-    }
+    #music-btn.playing .music-icon { animation: pulse 1.8s ease-in-out infinite; }
     @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 12px rgba(255,40,40,0.5); }
+      0%,100% { box-shadow: 0 0 12px rgba(255,40,40,0.5); }
       50% { box-shadow: 0 0 24px rgba(255,80,80,0.9); }
     }
-
     .music-info { display: flex; flex-direction: column; gap: 1px; }
-    .music-label {
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.35);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-    .music-title {
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.8);
-      font-weight: 500;
-      max-width: 160px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* 波形バー (playing時) */
-    .music-bars {
-      display: flex;
-      align-items: flex-end;
-      gap: 2px;
-      height: 14px;
-      margin-left: 4px;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+    .music-label { font-size: 0.7rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; text-transform: uppercase; }
+    .music-title { font-size: 0.78rem; color: rgba(255,255,255,0.8); font-weight: 500; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .music-bars { display: flex; align-items: flex-end; gap: 2px; height: 14px; margin-left: 4px; opacity: 0; transition: opacity 0.3s; }
     #music-btn.playing .music-bars { opacity: 1; }
-    .music-bars span {
-      display: block;
-      width: 3px;
-      background: #ff4040;
-      border-radius: 2px;
-      animation: bar 0.8s ease-in-out infinite alternate;
-    }
+    .music-bars span { display: block; width: 3px; background: #ff4040; border-radius: 2px; animation: bar 0.8s ease-in-out infinite alternate; }
     .music-bars span:nth-child(1) { height: 5px; animation-delay: 0s; }
     .music-bars span:nth-child(2) { height: 10px; animation-delay: 0.15s; }
     .music-bars span:nth-child(3) { height: 7px; animation-delay: 0.3s; }
     .music-bars span:nth-child(4) { height: 12px; animation-delay: 0.1s; }
-    @keyframes bar {
-      from { transform: scaleY(0.4); }
-      to { transform: scaleY(1.2); }
-    }
+    @keyframes bar { from { transform: scaleY(0.4); } to { transform: scaleY(1.2); } }
     #music-btn:not(.playing) .music-bars span { animation: none; }
+    #yt-player { position: fixed; top: -9999px; left: -9999px; width: 1px; height: 1px; pointer-events: none; opacity: 0; }
 
-    /* YouTube hidden iframe */
-    #yt-player {
-      position: fixed;
-      top: -9999px; left: -9999px;
-      width: 1px; height: 1px;
-      pointer-events: none;
-      opacity: 0;
+    /* ── Back link ── */
+    .back {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.4); font-size: 0.82rem;
+      text-decoration: none; cursor: pointer;
+      transition: color 0.2s; width: fit-content;
     }
+    .back:hover { color: #ff6060; }
 
-    /* ── SNS Fixed Icons ── */
-    .sns-bar {
-      position: fixed; bottom: 28px; right: 28px;
-      z-index: 100; display: flex; flex-direction: column; gap: 14px; align-items: center;
+    /* ── Webhook page styles ── */
+    .wh-page { display: flex; flex-direction: column; gap: 22px; width: 100%; }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,80,80,0.2);
+      border-radius: 18px;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 8px 32px rgba(180,0,0,0.15);
+      padding: 24px 28px;
     }
+    .card-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 2px; color: #cc2222; margin-bottom: 16px; }
+
+    label { display: block; font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-bottom: 6px; margin-top: 14px; }
+    label:first-of-type { margin-top: 0; }
+
+    input[type="text"], input[type="url"], textarea, select {
+      width: 100%; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,80,80,0.2); border-radius: 10px;
+      color: #fff; font-size: 0.9rem; padding: 10px 14px;
+      outline: none; transition: border-color 0.2s; font-family: inherit;
+    }
+    input[type="text"]:focus, input[type="url"]:focus, textarea:focus, select:focus { border-color: rgba(255,80,80,0.6); }
+    textarea { resize: vertical; min-height: 90px; }
+    select option { background: #1a0000; }
+
+    .webhook-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+    .webhook-item {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,80,80,0.12);
+      border-radius: 10px; padding: 10px 14px; cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .webhook-item:hover { background: rgba(255,80,80,0.08); border-color: rgba(255,80,80,0.3); }
+    .webhook-item.active { border-color: rgba(255,80,80,0.6); background: rgba(255,80,80,0.1); }
+    .webhook-dot { width: 8px; height: 8px; border-radius: 50%; background: #ff4040; flex-shrink: 0; }
+    .webhook-name { font-size: 0.88rem; flex: 1; }
+    .webhook-url-preview { font-size: 0.72rem; color: rgba(255,255,255,0.3); flex: 2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .btn-del { background: none; border: none; color: rgba(255,80,80,0.4); cursor: pointer; font-size: 1rem; padding: 0 4px; transition: color 0.2s; }
+    .btn-del:hover { color: #ff4040; }
+
+    .advanced-toggle {
+      display: flex; align-items: center; gap: 8px; cursor: pointer;
+      user-select: none; color: rgba(255,255,255,0.45); font-size: 0.82rem;
+      padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 6px; transition: color 0.2s;
+    }
+    .advanced-toggle:hover { color: #ff6060; }
+    .toggle-arrow { font-size: 0.75rem; transition: transform 0.3s; display: inline-block; }
+    .toggle-arrow.open { transform: rotate(90deg); }
+    .advanced-body { display: none; margin-top: 14px; }
+    .advanced-body.open { display: block; }
+
+    .avatar-row { display: flex; gap: 12px; }
+    .avatar-row > div { flex: 1; }
+
+    .options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 4px; }
+    .opt-item {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,80,80,0.12);
+      border-radius: 8px; padding: 8px 12px; cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .opt-item:hover { background: rgba(255,80,80,0.07); }
+    .opt-item input[type="checkbox"] { accent-color: #ff3030; width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
+    .opt-label { font-size: 0.82rem; color: rgba(255,255,255,0.7); }
+    .opt-badge { font-size: 0.65rem; background: rgba(255,40,40,0.25); color: #ff8080; border-radius: 4px; padding: 1px 5px; margin-left: auto; }
+
+    .embed-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .embed-color-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+    input[type="color"] { width: 40px; height: 36px; border: none; border-radius: 8px; background: none; cursor: pointer; padding: 0; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 10px; border: none;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s; letter-spacing: 0.5px;
+    }
+    .btn-primary { background: linear-gradient(135deg, #cc0000, #880000); color: #fff; box-shadow: 0 4px 16px rgba(200,0,0,0.3); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,0,0,0.45); }
+    .btn-ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,80,80,0.25); color: rgba(255,255,255,0.7); }
+    .btn-ghost:hover { background: rgba(255,80,80,0.1); color: #fff; }
+    .btn-sm { padding: 7px 14px; font-size: 0.8rem; }
+    .btn-row { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+
+    #send-status { font-size: 0.82rem; padding: 8px 14px; border-radius: 8px; display: none; margin-top: 10px; }
+    #send-status.success { background: rgba(0,200,80,0.12); border: 1px solid rgba(0,200,80,0.3); color: #40ff80; display: block; }
+    #send-status.error { background: rgba(255,40,40,0.12); border: 1px solid rgba(255,40,40,0.3); color: #ff6060; display: block; }
+    #send-status.loading { background: rgba(255,200,0,0.08); border: 1px solid rgba(255,200,0,0.2); color: #ffcc44; display: block; }
+
+    .log-list { display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow-y: auto; }
+    .log-list::-webkit-scrollbar { width: 4px; }
+    .log-list::-webkit-scrollbar-thumb { background: rgba(255,60,60,0.3); border-radius: 4px; }
+    .log-item { display: flex; flex-direction: column; gap: 3px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,80,80,0.1); border-radius: 10px; padding: 10px 14px; }
+    .log-item.ok { border-left: 3px solid #40ff80; }
+    .log-item.fail { border-left: 3px solid #ff4040; }
+    .log-top { display: flex; align-items: center; gap: 10px; }
+    .log-badge { font-size: 0.68rem; padding: 2px 8px; border-radius: 4px; font-weight: 700; letter-spacing: 0.5px; }
+    .log-badge.ok { background: rgba(0,200,80,0.2); color: #40ff80; }
+    .log-badge.fail { background: rgba(255,40,40,0.2); color: #ff6060; }
+    .log-time { font-size: 0.72rem; color: rgba(255,255,255,0.3); margin-left: auto; }
+    .log-webhook { font-size: 0.78rem; color: rgba(255,255,255,0.55); }
+    .log-preview { font-size: 0.82rem; color: rgba(255,255,255,0.7); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .log-empty { color: rgba(255,255,255,0.25); font-size: 0.85rem; text-align: center; padding: 20px; }
+
+    /* ── SNS ── */
+    .sns-bar { position: fixed; bottom: 28px; right: 28px; z-index: 100; display: flex; flex-direction: column; gap: 14px; align-items: center; }
     .sns-bar a {
       display: flex; align-items: center; justify-content: center;
       width: 44px; height: 44px; border-radius: 50%;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.15);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px); transition: transform 0.25s, background 0.25s, box-shadow 0.25s;
       text-decoration: none;
     }
     .sns-bar a:hover { transform: scale(1.18); background: rgba(255,255,255,0.14); box-shadow: 0 4px 20px rgba(255,255,255,0.1); }
-    .sns-bar a svg { width: 20px; height: 20px; fill: #ffffff; }
+    .sns-bar a svg { width: 20px; height: 20px; fill: #fff; }
+
+    /* ── Page transition ── */
+    .page { animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -274,7 +281,7 @@
 <div class="bg"></div>
 <canvas id="canvas"></canvas>
 
-<!-- Music Button -->
+<!-- Music Button (永続) -->
 <div id="music-btn" onclick="toggleMusic()" title="BGM On/Off">
   <div class="music-icon">♪</div>
   <div class="music-info">
@@ -286,26 +293,20 @@
   </div>
 </div>
 
-<!-- Hidden YouTube player -->
+<!-- Hidden YouTube player (永続) -->
 <div id="yt-player"></div>
 
-<div class="page">
+<!-- ══════════ HOME PAGE ══════════ -->
+<div class="page active" id="page-home">
 
-  <!-- Hero -->
   <div class="glass hero-card">
     <div class="avatar">👾</div>
     <div class="name">DOY Coder</div>
-    <div class="badge">
-      <span>Designer</span>
-      <span>Coder</span>
-    </div>
-    <p class="bio">
-      Hi, I'm OY — a site editor and developer focused on crafting clean, functional web experiences. I work with various websites and handle data processing and management across multiple platforms.
-    </p>
+    <div class="badge"><span>Designer</span><span>Coder</span></div>
+    <p class="bio">Hi, I'm OY — a site editor and developer focused on crafting clean, functional web experiences. I work with various websites and handle data processing and management across multiple platforms.</p>
     <div class="accent-line"></div>
   </div>
 
-  <!-- Skill cards -->
   <div class="cards-row">
     <div class="glass skill-card">
       <div class="skill-icon">🎨</div>
@@ -324,7 +325,6 @@
     </div>
   </div>
 
-  <!-- What I do -->
   <div class="glass info-card">
     <div class="section-label">What I Do</div>
     <ul class="info-list">
@@ -335,120 +335,349 @@
     </ul>
   </div>
 
-  <!-- Tools section -->
   <div class="section-label" style="text-align:center; margin-bottom:-10px;">Tools</div>
   <div class="cards-row">
-    <a href="webhook/" class="glass skill-card" style="text-decoration:none; color:inherit; cursor:pointer;">
+    <div class="glass skill-card" onclick="navigate('webhook')" style="cursor:pointer;">
       <div class="skill-icon">🔔</div>
       <div class="skill-title">Webhook Manager</div>
       <div class="skill-desc">Send & manage Discord webhooks with advanced options</div>
-    </a>
+    </div>
   </div>
 
   <footer>© 2026 DOY Coder — All rights reserved</footer>
-
 </div>
 
-<!-- SNS Icons -->
+<!-- ══════════ WEBHOOK PAGE ══════════ -->
+<div class="page" id="page-webhook">
+  <div class="wh-page">
+
+    <span class="back" onclick="navigate('home')">← DOY Coder</span>
+
+    <div>
+      <h1 style="font-size:1.8rem;font-weight:700;letter-spacing:1.5px;background:linear-gradient(90deg,#ff6060,#ff2020,#cc0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Webhook Manager</h1>
+      <div style="color:rgba(255,255,255,0.35);font-size:0.82rem;margin-top:2px;">Discord Webhook sender & manager</div>
+    </div>
+
+    <!-- Saved Webhooks -->
+    <div class="card">
+      <div class="card-title">📋 Saved Webhooks</div>
+      <div class="webhook-list" id="webhook-list"><div class="log-empty">No webhooks saved yet.</div></div>
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:180px;">
+          <label>Name</label>
+          <input type="text" id="new-name" placeholder="My Server"/>
+        </div>
+        <div style="flex:3;min-width:220px;">
+          <label>Webhook URL</label>
+          <input type="url" id="new-url" placeholder="https://discord.com/api/webhooks/..."/>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost btn-sm" onclick="saveWebhook()">＋ Save Webhook</button>
+      </div>
+    </div>
+
+    <!-- Compose -->
+    <div class="card">
+      <div class="card-title">✉️ Compose Message</div>
+      <label>Target Webhook</label>
+      <select id="target-webhook"><option value="">— Select a saved webhook —</option></select>
+      <label>Message Content</label>
+      <textarea id="msg-content" placeholder="Type your message here..."></textarea>
+
+      <label style="margin-top:18px;">Options</label>
+      <div class="options-grid">
+        <label class="opt-item"><input type="checkbox" id="opt-tts"/><span class="opt-label">TTS</span><span class="opt-badge">🔊</span></label>
+        <label class="opt-item"><input type="checkbox" id="opt-silent"/><span class="opt-label">Silent</span><span class="opt-badge">🔕</span></label>
+        <label class="opt-item"><input type="checkbox" id="opt-embed"/><span class="opt-label">Embed</span><span class="opt-badge">📦</span></label>
+        <label class="opt-item"><input type="checkbox" id="opt-suppress"/><span class="opt-label">Suppress Embeds</span><span class="opt-badge">🚫</span></label>
+        <label class="opt-item"><input type="checkbox" id="opt-mention-everyone"/><span class="opt-label">@everyone</span><span class="opt-badge">📢</span></label>
+        <label class="opt-item"><input type="checkbox" id="opt-ephemeral"/><span class="opt-label">Ephemeral</span><span class="opt-badge">👻</span></label>
+      </div>
+
+      <div class="advanced-toggle" onclick="toggleAdvanced()">
+        <span class="toggle-arrow" id="adv-arrow">›</span> Advanced Settings
+      </div>
+      <div class="advanced-body" id="adv-body">
+        <div class="avatar-row">
+          <div><label>Override Username</label><input type="text" id="adv-username" placeholder="DOY Bot"/></div>
+          <div><label>Override Avatar URL</label><input type="url" id="adv-avatar" placeholder="https://..."/></div>
+        </div>
+        <label>Thread Name</label>
+        <input type="text" id="adv-thread" placeholder="my-thread"/>
+        <div id="embed-section" style="display:none;margin-top:18px;border-top:1px solid rgba(255,80,80,0.1);padding-top:18px;">
+          <div class="card-title" style="margin-bottom:10px;">📦 Embed</div>
+          <label>Title</label><input type="text" id="emb-title" placeholder="Embed title"/>
+          <label>Description</label><textarea id="emb-desc" placeholder="Embed description..." style="min-height:60px;"></textarea>
+          <div class="embed-row" style="margin-top:0;">
+            <div><label>Author</label><input type="text" id="emb-author" placeholder="Author name"/></div>
+            <div><label>Footer</label><input type="text" id="emb-footer" placeholder="Footer text"/></div>
+          </div>
+          <div class="embed-row">
+            <div><label>Image URL</label><input type="url" id="emb-image" placeholder="https://..."/></div>
+            <div><label>Thumbnail URL</label><input type="url" id="emb-thumb" placeholder="https://..."/></div>
+          </div>
+          <div class="embed-color-row">
+            <label style="margin:0;">Color</label>
+            <input type="color" id="emb-color" value="#cc0000"/>
+            <span style="font-size:0.78rem;color:rgba(255,255,255,0.35);">Embed side color</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="send-status"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="sendWebhook()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+          Send Message
+        </button>
+        <button class="btn btn-ghost btn-sm" onclick="clearForm()">Clear</button>
+      </div>
+    </div>
+
+    <!-- Log -->
+    <div class="card">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;">
+        <span>📜 Send Log</span>
+        <button class="btn btn-ghost btn-sm" onclick="clearLog()">Clear Log</button>
+      </div>
+      <div class="log-list" id="log-list"><div class="log-empty">No messages sent yet.</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SNS -->
 <div class="sns-bar">
-  <a href="https://discord.gg/EvWTjsGN7Z" target="_blank" rel="noopener" title="Discord">
+  <a href="https://discord.gg/EvWTjsGN7Z" target="_blank" title="Discord">
     <svg viewBox="0 0 24 24"><path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028zM8.02 15.278c-1.182 0-2.157-1.069-2.157-2.38 0-1.312.956-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.956 2.38-2.157 2.38zm7.975 0c-1.183 0-2.157-1.069-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.176 1.077 2.157 2.38 0 1.312-.946 2.38-2.157 2.38z"/></svg>
   </a>
-  <a href="https://github.com/tnndoritikinnsoma-sketch/" target="_blank" rel="noopener" title="GitHub">
+  <a href="https://github.com/tnndoritikinnsoma-sketch/" target="_blank" title="GitHub">
     <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
   </a>
 </div>
 
-<!-- YouTube IFrame API -->
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-  // ── YouTube Player ──
-  const VIDEO_ID = 'Cesg5bCKfaM';
-  let player;
-  let isPlaying = false;
-  let playerReady = false;
-
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('yt-player', {
-      videoId: VIDEO_ID,
-      playerVars: {
-        autoplay: 0,
-        controls: 0,
-        loop: 1,
-        playlist: VIDEO_ID,
-        fs: 0,
-        modestbranding: 1,
-        rel: 0,
-      },
-      events: {
-        onReady: () => { playerReady = true; },
-        onStateChange: (e) => {
-          if (e.data === YT.PlayerState.ENDED) {
-            player.playVideo();
-          }
-        }
-      }
-    });
+// ── Router ──
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  history.pushState({ page }, '', page === 'home' ? '/' : '/' + page);
+  window.scrollTo(0, 0);
+}
+window.addEventListener('popstate', (e) => {
+  const page = e.state?.page || 'home';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+});
+// 初回URL判定
+(function() {
+  const path = location.pathname.replace(/^\//, '').replace(/\/$/, '');
+  if (path === 'webhook') {
+    document.getElementById('page-home').classList.remove('active');
+    document.getElementById('page-webhook').classList.add('active');
   }
+})();
 
-  function toggleMusic() {
-    if (!playerReady) return;
-    const btn = document.getElementById('music-btn');
-    if (isPlaying) {
-      player.pauseVideo();
-      isPlaying = false;
-      btn.classList.remove('playing');
-    } else {
-      player.playVideo();
-      isPlaying = true;
-      btn.classList.add('playing');
+// ── YouTube Player ──
+const VIDEO_ID = 'Cesg5bCKfaM';
+let player, isPlaying = false, playerReady = false;
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt-player', {
+    videoId: VIDEO_ID,
+    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: VIDEO_ID, fs: 0, modestbranding: 1, rel: 0 },
+    events: {
+      onReady: () => { playerReady = true; },
+      onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED) player.playVideo(); }
     }
-  }
+  });
+}
 
-  // ── Particles ──
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [];
-
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
+function toggleMusic() {
+  if (!playerReady) return;
+  const btn = document.getElementById('music-btn');
+  if (isPlaying) {
+    player.pauseVideo();
+    isPlaying = false;
+    btn.classList.remove('playing');
+  } else {
+    player.playVideo();
+    isPlaying = true;
+    btn.classList.add('playing');
   }
-  window.addEventListener('resize', resize);
-  resize();
+}
 
-  function randomColor() {
-    const palette = ['rgba(255,40,40,','rgba(200,0,0,','rgba(255,100,100,','rgba(180,30,30,','rgba(255,180,180,'];
-    return palette[Math.floor(Math.random() * palette.length)];
+// ── Particles ──
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+window.addEventListener('resize', resize); resize();
+const palette = ['rgba(255,40,40,','rgba(200,0,0,','rgba(255,100,100,','rgba(180,30,30,','rgba(255,180,180,'];
+for (let i = 0; i < 80; i++) {
+  particles.push({ x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
+    r: Math.random()*2.5+0.5, dx: (Math.random()-.5)*.4, dy: (Math.random()-.5)*.4,
+    color: palette[Math.floor(Math.random()*palette.length)], alpha: Math.random()*.5+.2 });
+}
+function draw() {
+  ctx.clearRect(0,0,W,H);
+  for (const p of particles) {
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle = p.color+p.alpha+')'; ctx.fill();
+    p.x+=p.dx; p.y+=p.dy;
+    if(p.x<0||p.x>W) p.dx*=-1; if(p.y<0||p.y>H) p.dy*=-1;
   }
+  requestAnimationFrame(draw);
+}
+draw();
 
-  for (let i = 0; i < 80; i++) {
-    particles.push({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      r: Math.random() * 2.5 + 0.5,
-      dx: (Math.random() - 0.5) * 0.4,
-      dy: (Math.random() - 0.5) * 0.4,
-      color: randomColor(),
-      alpha: Math.random() * 0.5 + 0.2,
-    });
-  }
+// ── Webhook Logic ──
+let webhooks = JSON.parse(localStorage.getItem('doy_webhooks') || '[]');
+let logs = JSON.parse(localStorage.getItem('doy_logs') || '[]');
 
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    for (const p of particles) {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.color + p.alpha + ')';
-      ctx.fill();
-      p.x += p.dx; p.y += p.dy;
-      if (p.x < 0 || p.x > W) p.dx *= -1;
-      if (p.y < 0 || p.y > H) p.dy *= -1;
-    }
-    requestAnimationFrame(draw);
+function toggleAdvanced() {
+  document.getElementById('adv-body').classList.toggle('open');
+  document.getElementById('adv-arrow').classList.toggle('open');
+}
+document.getElementById('opt-embed').addEventListener('change', function() {
+  document.getElementById('embed-section').style.display = this.checked ? 'block' : 'none';
+});
+
+function saveWebhook() {
+  const name = document.getElementById('new-name').value.trim();
+  const url = document.getElementById('new-url').value.trim();
+  if (!name || !url) { alert('Name and URL are required.'); return; }
+  if (!url.startsWith('https://discord.com/api/webhooks/')) { alert('Please enter a valid Discord Webhook URL.'); return; }
+  webhooks.push({ id: Date.now(), name, url });
+  localStorage.setItem('doy_webhooks', JSON.stringify(webhooks));
+  document.getElementById('new-name').value = '';
+  document.getElementById('new-url').value = '';
+  renderWebhooks();
+}
+
+function deleteWebhook(id) {
+  webhooks = webhooks.filter(w => w.id !== id);
+  localStorage.setItem('doy_webhooks', JSON.stringify(webhooks));
+  renderWebhooks();
+}
+
+function selectWebhook(id) {
+  document.querySelectorAll('.webhook-item').forEach(el => el.classList.remove('active'));
+  document.querySelector(`.webhook-item[data-id="${id}"]`)?.classList.add('active');
+  document.getElementById('target-webhook').value = id;
+}
+
+function renderWebhooks() {
+  const list = document.getElementById('webhook-list');
+  const sel = document.getElementById('target-webhook');
+  sel.innerHTML = '<option value="">— Select a saved webhook —</option>';
+  if (webhooks.length === 0) { list.innerHTML = '<div class="log-empty">No webhooks saved yet.</div>'; return; }
+  list.innerHTML = webhooks.map(w => `
+    <div class="webhook-item" data-id="${w.id}" onclick="selectWebhook(${w.id})">
+      <div class="webhook-dot"></div>
+      <div class="webhook-name">${w.name}</div>
+      <div class="webhook-url-preview">${w.url}</div>
+      <button class="btn-del" onclick="event.stopPropagation();deleteWebhook(${w.id})">✕</button>
+    </div>`).join('');
+  webhooks.forEach(w => { const o = document.createElement('option'); o.value = w.id; o.textContent = w.name; sel.appendChild(o); });
+}
+
+document.getElementById('target-webhook').addEventListener('change', function() {
+  const id = parseInt(this.value); if (id) selectWebhook(id);
+});
+
+async function sendWebhook() {
+  const selId = parseInt(document.getElementById('target-webhook').value);
+  const hook = webhooks.find(w => w.id === selId);
+  if (!hook) { showStatus('error', 'Please select a webhook first.'); return; }
+  const content = document.getElementById('msg-content').value.trim();
+  const tts = document.getElementById('opt-tts').checked;
+  const silent = document.getElementById('opt-silent').checked;
+  const suppressEmbeds = document.getElementById('opt-suppress').checked;
+  const mentionEveryone = document.getElementById('opt-mention-everyone').checked;
+  const username = document.getElementById('adv-username').value.trim();
+  const avatarUrl = document.getElementById('adv-avatar').value.trim();
+  const useEmbed = document.getElementById('opt-embed').checked;
+  if (!content && !useEmbed) { showStatus('error', 'Message content is empty.'); return; }
+  const payload = {};
+  if (content) payload.content = mentionEveryone ? '@everyone ' + content : content;
+  if (tts) payload.tts = true;
+  if (username) payload.username = username;
+  if (avatarUrl) payload.avatar_url = avatarUrl;
+  let flags = 0;
+  if (suppressEmbeds) flags |= 1 << 2;
+  if (silent) flags |= 1 << 12;
+  if (flags) payload.flags = flags;
+  if (useEmbed) {
+    const embed = {};
+    const title = document.getElementById('emb-title').value.trim();
+    const desc = document.getElementById('emb-desc').value.trim();
+    const author = document.getElementById('emb-author').value.trim();
+    const footer = document.getElementById('emb-footer').value.trim();
+    const image = document.getElementById('emb-image').value.trim();
+    const thumb = document.getElementById('emb-thumb').value.trim();
+    const color = document.getElementById('emb-color').value;
+    if (title) embed.title = title;
+    if (desc) embed.description = desc;
+    if (author) embed.author = { name: author };
+    if (footer) embed.footer = { text: footer };
+    if (image) embed.image = { url: image };
+    if (thumb) embed.thumbnail = { url: thumb };
+    embed.color = parseInt(color.replace('#',''), 16);
+    payload.embeds = [embed];
   }
-  draw();
+  showStatus('loading', 'Sending...');
+  try {
+    const res = await fetch(hook.url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    const preview = content || (useEmbed ? '[Embed]' : '');
+    if (res.ok || res.status === 204) { showStatus('success', `✓ Sent to "${hook.name}"`); addLog('ok', hook.name, preview); }
+    else { const err = await res.json().catch(()=>({})); showStatus('error', `✗ Error ${res.status}: ${err.message||'Unknown'}`); addLog('fail', hook.name, preview); }
+  } catch(e) { showStatus('error', `✗ Network error: ${e.message}`); addLog('fail', hook.name, content||'[Embed]'); }
+}
+
+function showStatus(type, msg) {
+  const el = document.getElementById('send-status');
+  el.className = type; el.textContent = msg;
+  if (type === 'success') setTimeout(() => el.style.display = 'none', 4000);
+}
+
+function clearForm() {
+  document.getElementById('msg-content').value = '';
+  document.querySelectorAll('.options-grid input[type="checkbox"]').forEach(c => c.checked = false);
+  document.getElementById('embed-section').style.display = 'none';
+  document.getElementById('adv-username').value = '';
+  document.getElementById('adv-avatar').value = '';
+  const el = document.getElementById('send-status'); el.className = ''; el.style.display = 'none';
+}
+
+function addLog(status, webhookName, preview) {
+  const now = new Date();
+  logs.unshift({ status, webhookName, preview, time: now.toLocaleTimeString('ja-JP'), date: now.toLocaleDateString('ja-JP') });
+  if (logs.length > 100) logs.pop();
+  localStorage.setItem('doy_logs', JSON.stringify(logs));
+  renderLogs();
+}
+
+function clearLog() { logs = []; localStorage.setItem('doy_logs', JSON.stringify(logs)); renderLogs(); }
+
+function renderLogs() {
+  const list = document.getElementById('log-list');
+  if (logs.length === 0) { list.innerHTML = '<div class="log-empty">No messages sent yet.</div>'; return; }
+  list.innerHTML = logs.map(l => `
+    <div class="log-item ${l.status}">
+      <div class="log-top">
+        <span class="log-badge ${l.status}">${l.status==='ok'?'✓ SUCCESS':'✗ FAILED'}</span>
+        <span class="log-webhook">${l.webhookName}</span>
+        <span class="log-time">${l.date} ${l.time}</span>
+      </div>
+      <div class="log-preview">${l.preview||'—'}</div>
+    </div>`).join('');
+}
+
+renderWebhooks();
+renderLogs();
 </script>
-
 </body>
 </html>
