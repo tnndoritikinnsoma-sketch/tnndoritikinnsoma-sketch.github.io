@@ -259,6 +259,158 @@
     /* ── Page transition ── */
     .page { animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── Tutorials page ── */
+    #page-tutorials {
+      justify-content: flex-start;
+      align-items: stretch;
+      max-width: 960px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .tut-page { display: flex; flex-direction: column; gap: 28px; width: 100%; }
+
+    .tut-header { text-align: center; padding: 10px 0 4px; }
+    .tut-header h1 {
+      font-size: 2rem; font-weight: 800; letter-spacing: 2px;
+      background: linear-gradient(90deg, #ff6060, #ff2020, #cc0000);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .tut-header p { color: rgba(255,255,255,0.35); font-size: 0.85rem; margin-top: 6px; }
+
+    /* 検索＋フィルター */
+    .tut-controls { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .tut-search-wrap {
+      position: relative; width: 100%; max-width: 520px;
+    }
+    .tut-search-wrap svg {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      width: 16px; height: 16px; stroke: rgba(255,255,255,0.3); fill: none;
+    }
+    #tut-search {
+      width: 100%; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,80,80,0.2); border-radius: 12px;
+      color: #fff; font-size: 0.9rem; padding: 11px 14px 11px 40px;
+      outline: none; font-family: inherit; transition: border-color 0.2s;
+    }
+    #tut-search:focus { border-color: rgba(255,80,80,0.5); }
+    #tut-search::placeholder { color: rgba(255,255,255,0.25); }
+
+    .tut-filters { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .tut-filter {
+      padding: 6px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
+      border: 1px solid rgba(255,80,80,0.3); background: transparent;
+      color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px;
+    }
+    .tut-filter:hover { border-color: rgba(255,80,80,0.6); color: #fff; }
+    .tut-filter.active { background: #cc0000; border-color: #cc0000; color: #fff; }
+
+    /* section label */
+    .tut-section-label {
+      font-size: 0.78rem; text-transform: uppercase; letter-spacing: 2px;
+      color: #ff4040; font-weight: 700; margin-bottom: 2px;
+    }
+
+    /* Featured 2カラム */
+    .tut-featured-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+    }
+    @media (max-width: 620px) { .tut-featured-grid { grid-template-columns: 1fr; } }
+
+    /* Regular list */
+    .tut-list { display: flex; flex-direction: column; gap: 14px; }
+
+    /* カード共通 */
+    .tut-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,80,80,0.15);
+      border-radius: 16px; overflow: hidden; cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    .tut-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,80,80,0.4);
+      box-shadow: 0 8px 32px rgba(200,0,0,0.2);
+    }
+
+    /* サムネ */
+    .tut-thumb {
+      position: relative; width: 100%; padding-top: 52%;
+      background: rgba(0,0,0,0.4); overflow: hidden;
+    }
+    .tut-thumb img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .tut-card:hover .tut-thumb img { transform: scale(1.04); }
+    .tut-thumb-placeholder {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #1a0000, #2a0a0a);
+      font-size: 2.5rem; color: rgba(255,80,80,0.3);
+    }
+    .tut-duration {
+      position: absolute; bottom: 8px; right: 10px;
+      background: rgba(0,0,0,0.75); border-radius: 6px;
+      padding: 2px 8px; font-size: 0.72rem; color: rgba(255,255,255,0.85);
+      display: flex; align-items: center; gap: 4px;
+      backdrop-filter: blur(4px);
+    }
+    .tut-duration svg { width: 11px; height: 11px; stroke: currentColor; fill: none; }
+    .tut-badge-tag {
+      position: absolute; top: 10px; left: 10px;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 1px;
+      padding: 3px 10px; border-radius: 6px; text-transform: uppercase;
+    }
+    .tut-badge-tag.featured { background: rgba(200,0,0,0.8); color: #fff; }
+    .tut-badge-tag.security { background: rgba(255,150,0,0.8); color: #fff; }
+    .tut-badge-tag.tutorial { background: rgba(0,120,200,0.8); color: #fff; }
+    .tut-badge-tag.tip { background: rgba(0,180,80,0.8); color: #fff; }
+
+    /* カード本文 */
+    .tut-body { padding: 14px 16px 16px; }
+    .tut-title { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 5px; line-height: 1.4; }
+    .tut-desc { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.5; margin-bottom: 10px; }
+    .tut-meta { display: flex; align-items: center; justify-content: space-between; }
+    .tut-views { font-size: 0.72rem; color: rgba(255,255,255,0.3); display: flex; align-items: center; gap: 4px; }
+    .tut-views svg { width: 12px; height: 12px; stroke: currentColor; fill: none; }
+    .tut-stars { display: flex; align-items: center; gap: 3px; font-size: 0.72rem; color: #ffcc44; }
+
+    /* 横長カード(list用) */
+    .tut-card.horizontal { display: flex; flex-direction: row; }
+    .tut-card.horizontal .tut-thumb { width: 180px; min-width: 180px; padding-top: 0; height: 110px; flex-shrink: 0; }
+    @media (max-width: 500px) { .tut-card.horizontal { flex-direction: column; } .tut-card.horizontal .tut-thumb { width: 100%; height: auto; padding-top: 52%; min-width: unset; } }
+    .tut-card.horizontal .tut-body { display: flex; flex-direction: column; justify-content: center; }
+
+    /* モーダル */
+    .tut-modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .tut-modal-overlay.open { display: flex; }
+    .tut-modal {
+      background: #0f0000; border: 1px solid rgba(255,80,80,0.3);
+      border-radius: 20px; width: 100%; max-width: 700px;
+      overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+      animation: modalIn 0.25s ease;
+    }
+    @keyframes modalIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
+    .tut-modal-video { position: relative; padding-top: 56.25%; background: #000; }
+    .tut-modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    .tut-modal-info { padding: 20px 24px 24px; }
+    .tut-modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+    .tut-modal-desc { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+    .tut-modal-close {
+      position: absolute; top: 14px; right: 16px;
+      background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.3);
+      border-radius: 50%; width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1rem; color: #ff6060; transition: background 0.2s;
+    }
+    .tut-modal-close:hover { background: rgba(255,80,80,0.3); }
+    .tut-modal-wrap { position: relative; }
+
+    .tut-empty { text-align: center; color: rgba(255,255,255,0.2); padding: 40px; font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -435,6 +587,63 @@
   </div>
 </div>
 
+
+<!-- ══════════ TUTORIALS PAGE ══════════ -->
+<div class="page" id="page-tutorials">
+  <div class="tut-page">
+
+    <span class="back" onclick="navigate('home')">← DOY Coder</span>
+
+    <div class="tut-header">
+      <h1>📚 Tutorials</h1>
+      <p>Tips, guides &amp; how-tos — curated by DOY Coder</p>
+    </div>
+
+    <div class="tut-controls">
+      <div class="tut-search-wrap">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="tut-search" placeholder="Search tutorials..."/>
+      </div>
+      <div class="tut-filters" id="tut-filters">
+        <button class="tut-filter active" data-cat="all">All</button>
+        <button class="tut-filter" data-cat="featured">Featured</button>
+        <button class="tut-filter" data-cat="tutorial">Tutorial</button>
+        <button class="tut-filter" data-cat="security">Security</button>
+        <button class="tut-filter" data-cat="tip">Tips</button>
+      </div>
+    </div>
+
+    <!-- Featured -->
+    <div id="tut-featured-section">
+      <div class="tut-section-label">⭐ Featured</div>
+      <div class="tut-featured-grid" id="tut-featured-grid"></div>
+    </div>
+
+    <!-- All -->
+    <div id="tut-all-section">
+      <div class="tut-section-label">📋 All Tutorials</div>
+      <div class="tut-list" id="tut-list"></div>
+    </div>
+
+    <div class="tut-empty" id="tut-empty" style="display:none;">No tutorials found.</div>
+
+  </div>
+</div>
+
+<!-- Tutorial Modal -->
+<div class="tut-modal-overlay" id="tut-modal" onclick="closeTutModal(event)">
+  <div class="tut-modal tut-modal-wrap">
+    <div class="tut-modal-video">
+      <iframe id="tut-iframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+    <div class="tut-modal-info">
+      <div class="tut-modal-title" id="tut-modal-title"></div>
+      <div class="tut-modal-desc" id="tut-modal-desc"></div>
+    </div>
+    <button class="tut-modal-close" onclick="closeTutModal()">✕</button>
+  </div>
+</div>
+
 <!-- SNS -->
 <div class="sns-bar">
   <a href="https://discord.gg/EvWTjsGN7Z" target="_blank" title="Discord">
@@ -453,6 +662,7 @@ function navigate(page) {
   document.getElementById('page-' + page).classList.add('active');
   history.pushState({ page }, '', page === 'home' ? '/' : '/' + page);
   window.scrollTo(0, 0);
+  if (page === 'tutorials') renderTutorials();
 }
 window.addEventListener('popstate', (e) => {
   const page = e.state?.page || 'home';
@@ -462,9 +672,10 @@ window.addEventListener('popstate', (e) => {
 // 初回URL判定
 (function() {
   const path = location.pathname.replace(/^\//, '').replace(/\/$/, '');
-  if (path === 'webhook') {
+  if (path === 'webhook' || path === 'tutorials') {
     document.getElementById('page-home').classList.remove('active');
-    document.getElementById('page-webhook').classList.add('active');
+    document.getElementById('page-' + path).classList.add('active');
+    if (path === 'tutorials') renderTutorials();
   }
 })();
 
@@ -668,6 +879,190 @@ function renderLogs() {
       </div>
       <div class="log-preview">${l.preview||'—'}</div>
     </div>`).join('');
+}
+
+
+// ── Tutorials Data ──
+const TUTORIALS = [
+  {
+    id: 1,
+    title: 'Getting Started with HTML & CSS',
+    desc: 'A complete beginner guide to building your first webpage from scratch.',
+    category: 'featured',
+    duration: '12:30',
+    views: '24.1K',
+    rating: 4.9,
+    videoId: 'qz0aGYrrlhU',
+    thumb: 'https://img.youtube.com/vi/qz0aGYrrlhU/mqdefault.jpg',
+  },
+  {
+    id: 2,
+    title: 'Glassmorphism UI Design',
+    desc: 'How to create stunning glassmorphism cards with CSS backdrop-filter.',
+    category: 'featured',
+    duration: '08:15',
+    views: '18.7K',
+    rating: 4.8,
+    videoId: 'hEx5DNLWmTo',
+    thumb: 'https://img.youtube.com/vi/hEx5DNLWmTo/mqdefault.jpg',
+  },
+  {
+    id: 3,
+    title: 'Discord Webhook Deep Dive',
+    desc: 'Everything you need to know about Discord Webhooks — sending messages, embeds and more.',
+    category: 'tutorial',
+    duration: '16:42',
+    views: '28.3K',
+    rating: 4.8,
+    videoId: 'fKksxz2Gdnc',
+    thumb: 'https://img.youtube.com/vi/fKksxz2Gdnc/mqdefault.jpg',
+  },
+  {
+    id: 4,
+    title: 'JavaScript for Beginners',
+    desc: 'Learn the core concepts of JavaScript with practical examples.',
+    category: 'tutorial',
+    duration: '20:05',
+    views: '31.0K',
+    rating: 4.7,
+    videoId: 'W6NZfCO5SIk',
+    thumb: 'https://img.youtube.com/vi/W6NZfCO5SIk/mqdefault.jpg',
+  },
+  {
+    id: 5,
+    title: 'Stay Safe Online',
+    desc: 'Essential security tips every developer and web user should know.',
+    category: 'security',
+    duration: '12:18',
+    views: '31.7K',
+    rating: 4.9,
+    videoId: 'aEmássVZV88',
+    thumb: '',
+  },
+  {
+    id: 6,
+    title: 'CSS Animations Tips',
+    desc: 'Quick tips to level up your CSS animations and transitions.',
+    category: 'tip',
+    duration: '05:44',
+    views: '9.2K',
+    rating: 4.6,
+    videoId: 'zHUpx90NerM',
+    thumb: 'https://img.youtube.com/vi/zHUpx90NerM/mqdefault.jpg',
+  },
+];
+
+let tutCategory = 'all';
+let tutSearch = '';
+
+function starsHTML(r) {
+  const full = Math.floor(r);
+  const half = r % 1 >= 0.5;
+  let s = '';
+  for (let i = 0; i < full; i++) s += '★';
+  if (half) s += '½';
+  return `<span class="tut-stars">${s} <span style="color:rgba(255,255,255,0.4);">(${r})</span></span>`;
+}
+
+function badgeTag(cat) {
+  const map = { featured:'FEATURED', tutorial:'TUTORIAL', security:'SECURITY', tip:'TIP' };
+  return `<span class="tut-badge-tag ${cat}">${map[cat]||cat.toUpperCase()}</span>`;
+}
+
+function thumbHTML(t, title) {
+  if (t) return `<img src="${t}" alt="${title}" loading="lazy" onerror="this.style.display='none'">`;
+  return `<div class="tut-thumb-placeholder">▶</div>`;
+}
+
+function tutCardHTML(t, horizontal=false) {
+  return `
+    <div class="tut-card${horizontal?' horizontal':''}" onclick="openTutModal(${t.id})">
+      <div class="tut-thumb">${thumbHTML(t.thumb, t.title)}${badgeTag(t.category)}<div class="tut-duration"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${t.duration}</div></div>
+      <div class="tut-body">
+        <div class="tut-title">${t.title}</div>
+        <div class="tut-desc">${t.desc}</div>
+        <div class="tut-meta">
+          <span class="tut-views"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>${t.views} views</span>
+          ${starsHTML(t.rating)}
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderTutorials() {
+  const q = tutSearch.toLowerCase();
+  const filtered = TUTORIALS.filter(t => {
+    const matchCat = tutCategory === 'all' || t.category === tutCategory;
+    const matchQ = !q || t.title.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+
+  const featured = filtered.filter(t => t.category === 'featured');
+  const others = filtered.filter(t => t.category !== 'featured');
+
+  const featuredSec = document.getElementById('tut-featured-section');
+  const allSec = document.getElementById('tut-all-section');
+  const empty = document.getElementById('tut-empty');
+
+  // Featured
+  const fg = document.getElementById('tut-featured-grid');
+  if (featured.length > 0 && tutCategory !== 'tutorial' && tutCategory !== 'security' && tutCategory !== 'tip') {
+    featuredSec.style.display = '';
+    fg.innerHTML = featured.map(t => tutCardHTML(t, false)).join('');
+  } else {
+    featuredSec.style.display = 'none';
+  }
+
+  // Others
+  const listEl = document.getElementById('tut-list');
+  const showOthers = tutCategory === 'all' ? others : filtered.filter(t => t.category !== 'featured' || tutCategory === 'featured');
+  const listItems = tutCategory === 'featured' ? featured : (tutCategory === 'all' ? others : filtered);
+
+  if (listItems.length > 0) {
+    allSec.style.display = '';
+    document.querySelector('#tut-all-section .tut-section-label').textContent =
+      tutCategory === 'all' ? '📋 All Tutorials' :
+      tutCategory === 'featured' ? '⭐ Featured' :
+      tutCategory === 'security' ? '🔒 Security' :
+      tutCategory === 'tip' ? '💡 Tips' : '📖 Tutorials';
+    listEl.innerHTML = listItems.map(t => tutCardHTML(t, true)).join('');
+  } else {
+    allSec.style.display = 'none';
+  }
+
+  empty.style.display = (featured.length === 0 && listItems.length === 0) ? 'block' : 'none';
+}
+
+// フィルター
+document.querySelectorAll('.tut-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tut-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    tutCategory = btn.dataset.cat;
+    renderTutorials();
+  });
+});
+
+// 検索
+document.getElementById('tut-search').addEventListener('input', function() {
+  tutSearch = this.value;
+  renderTutorials();
+});
+
+// モーダル
+function openTutModal(id) {
+  const t = TUTORIALS.find(x => x.id === id);
+  if (!t) return;
+  document.getElementById('tut-iframe').src = `https://www.youtube.com/embed/${t.videoId}?autoplay=1&rel=0`;
+  document.getElementById('tut-modal-title').textContent = t.title;
+  document.getElementById('tut-modal-desc').textContent = t.desc;
+  document.getElementById('tut-modal').classList.add('open');
+}
+
+function closeTutModal(e) {
+  if (e && e.target !== document.getElementById('tut-modal') && !e.target.closest('.tut-modal-close')) return;
+  document.getElementById('tut-modal').classList.remove('open');
+  document.getElementById('tut-iframe').src = '';
 }
 
 renderWebhooks();
