@@ -107,42 +107,27 @@
 
     footer { color: rgba(255,255,255,0.25); font-size: 0.75rem; letter-spacing: 1px; padding: 10px; }
 
-    /* ── Music Player ── */
+    /* ── Music Player (固定丸ボタン) ── */
     #music-btn {
-      position: fixed; top: 22px; left: 22px; z-index: 200;
-      display: flex; align-items: center; gap: 10px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,80,80,0.25);
-      border-radius: 30px; padding: 8px 16px 8px 10px;
-      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      cursor: pointer; transition: background 0.25s, box-shadow 0.25s;
+      position: fixed; bottom: 16px; right: 16px; z-index: 200;
+      width: 46px; height: 46px; border-radius: 50%;
+      background: rgba(153,0,0,0.5);
+      border: 1px solid #7f1d1d;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       user-select: none;
     }
-    #music-btn:hover { background: rgba(255,80,80,0.12); box-shadow: 0 4px 20px rgba(255,40,40,0.2); }
-    .music-icon {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: linear-gradient(135deg, #cc0000, #880000);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; box-shadow: 0 0 10px rgba(255,40,40,0.4);
-      flex-shrink: 0; transition: box-shadow 0.3s;
-    }
-    #music-btn.playing .music-icon { animation: pulse 1.8s ease-in-out infinite; }
+    #music-btn:hover { background: rgba(153,0,0,0.7); box-shadow: 0 4px 24px rgba(200,0,0,0.4); }
+    #music-btn.playing { box-shadow: 0 0 0 2px rgba(255,60,60,0.4), 0 4px 20px rgba(200,0,0,0.5); animation: pulse 1.8s ease-in-out infinite; }
     @keyframes pulse {
-      0%,100% { box-shadow: 0 0 12px rgba(255,40,40,0.5); }
-      50% { box-shadow: 0 0 24px rgba(255,80,80,0.9); }
+      0%,100% { box-shadow: 0 0 0 2px rgba(255,60,60,0.3), 0 4px 16px rgba(200,0,0,0.4); }
+      50% { box-shadow: 0 0 0 4px rgba(255,60,60,0.5), 0 4px 28px rgba(255,40,40,0.6); }
     }
-    .music-info { display: flex; flex-direction: column; gap: 1px; }
-    .music-label { font-size: 0.7rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; text-transform: uppercase; }
-    .music-title { font-size: 0.78rem; color: rgba(255,255,255,0.8); font-weight: 500; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .music-bars { display: flex; align-items: flex-end; gap: 2px; height: 14px; margin-left: 4px; opacity: 0; transition: opacity 0.3s; }
-    #music-btn.playing .music-bars { opacity: 1; }
-    .music-bars span { display: block; width: 3px; background: #ff4040; border-radius: 2px; animation: bar 0.8s ease-in-out infinite alternate; }
-    .music-bars span:nth-child(1) { height: 5px; animation-delay: 0s; }
-    .music-bars span:nth-child(2) { height: 10px; animation-delay: 0.15s; }
-    .music-bars span:nth-child(3) { height: 7px; animation-delay: 0.3s; }
-    .music-bars span:nth-child(4) { height: 12px; animation-delay: 0.1s; }
-    @keyframes bar { from { transform: scaleY(0.4); } to { transform: scaleY(1.2); } }
-    #music-btn:not(.playing) .music-bars span { animation: none; }
+    #music-btn svg { width: 20px; height: 20px; stroke: #f87171; transition: stroke 0.2s; }
+    #music-btn:hover svg { stroke: #ff9999; }
     #yt-player { position: fixed; top: -9999px; left: -9999px; width: 1px; height: 1px; pointer-events: none; opacity: 0; }
 
     /* ── Back link ── */
@@ -260,7 +245,7 @@
     .log-empty { color: rgba(255,255,255,0.25); font-size: 0.85rem; text-align: center; padding: 20px; }
 
     /* ── SNS ── */
-    .sns-bar { position: fixed; bottom: 28px; right: 28px; z-index: 100; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+    .sns-bar { position: fixed; bottom: 76px; right: 16px; z-index: 100; display: flex; flex-direction: column; gap: 14px; align-items: center; }
     .sns-bar a {
       display: flex; align-items: center; justify-content: center;
       width: 44px; height: 44px; border-radius: 50%;
@@ -281,17 +266,20 @@
 <div class="bg"></div>
 <canvas id="canvas"></canvas>
 
-<!-- Music Button (永続) -->
-<div id="music-btn" onclick="toggleMusic()" title="BGM On/Off">
-  <div class="music-icon">♪</div>
-  <div class="music-info">
-    <span class="music-label">BGM</span>
-    <span class="music-title">Synthwave Mix</span>
-  </div>
-  <div class="music-bars">
-    <span></span><span></span><span></span><span></span>
-  </div>
-</div>
+<!-- Music Button (固定丸ボタン) -->
+<button id="music-btn" onclick="toggleMusic()" aria-label="BGM On/Off" title="BGM On/Off">
+  <!-- 停止中: 音符アイコン -->
+  <svg id="icon-off" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 18V5l12-2v13"/>
+    <circle cx="6" cy="18" r="3"/>
+    <circle cx="18" cy="16" r="3"/>
+  </svg>
+  <!-- 再生中: ミュートアイコン -->
+  <svg id="icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+    <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+    <path d="M15 9.5a5 5 0 0 1 0 5M17.5 7a9 9 0 0 1 0 10"/>
+  </svg>
+</button>
 
 <!-- Hidden YouTube player (永続) -->
 <div id="yt-player"></div>
@@ -498,14 +486,20 @@ function onYouTubeIframeAPIReady() {
 function toggleMusic() {
   if (!playerReady) return;
   const btn = document.getElementById('music-btn');
+  const iconOff = document.getElementById('icon-off');
+  const iconOn = document.getElementById('icon-on');
   if (isPlaying) {
     player.pauseVideo();
     isPlaying = false;
     btn.classList.remove('playing');
+    iconOff.style.display = '';
+    iconOn.style.display = 'none';
   } else {
     player.playVideo();
     isPlaying = true;
     btn.classList.add('playing');
+    iconOff.style.display = 'none';
+    iconOn.style.display = '';
   }
 }
 
@@ -681,3 +675,4 @@ renderLogs();
 </script>
 </body>
 </html>
+
