@@ -210,7 +210,7 @@
 <!-- ══════════ HOME ══════════ -->
 <div class="page active" id="page-home">
   <div class="glass hero-card">
-    <div class="avatar">👾</div>
+    <div class="avatar" style="padding:0;overflow:hidden;"><img src="https://i.pinimg.com/originals/88/e7/81/88e781f55d1889530fdeaff5523d171b.gif" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="avatar"/></div>
     <div class="name">DOY Coder</div>
     <div class="badge"><span>Designer</span><span>Coder</span></div>
     <p class="bio">Hi, I'm OY — a site editor and developer focused on crafting clean, functional web experiences. I work with various websites and handle data processing and management across multiple platforms.</p>
@@ -218,9 +218,9 @@
   </div>
 
   <div class="cards-row">
-    <div class="glass skill-card"><div class="skill-icon">🎨</div><div class="skill-title">Design</div><div class="skill-desc">UI/UX design with a focus on clean, modern aesthetics</div></div>
-    <div class="glass skill-card"><div class="skill-icon">💻</div><div class="skill-title">Coding</div><div class="skill-desc">Building and editing websites from scratch</div></div>
-    <div class="glass skill-card"><div class="skill-icon">🗄️</div><div class="skill-title">Data</div><div class="skill-desc">Processing and managing data across platforms</div></div>
+    <div class="glass skill-card"><div class="skill-icon" style="font-size:1.4rem;letter-spacing:1px;color:#ff6060;">DESIGN</div><div class="skill-title">Design</div><div class="skill-desc">UI/UX design with a focus on clean, modern aesthetics</div></div>
+    <div class="glass skill-card"><div class="skill-icon" style="font-size:1.4rem;letter-spacing:1px;color:#ff6060;">CODE</div><div class="skill-title">Coding</div><div class="skill-desc">Building and editing websites from scratch</div></div>
+    <div class="glass skill-card"><div class="skill-icon" style="font-size:1.4rem;letter-spacing:1px;color:#ff6060;">DATA</div><div class="skill-title">Data</div><div class="skill-desc">Processing and managing data across platforms</div></div>
   </div>
 
   <div class="glass info-card">
@@ -236,12 +236,12 @@
   <div class="section-label" style="text-align:center;margin-bottom:-10px;">Pages</div>
   <div class="cards-row">
     <div class="glass skill-card" onclick="navigate('webhook')" style="cursor:pointer;">
-      <div class="skill-icon">🔔</div>
+      <div class="skill-icon" style="font-size:1.4rem;color:#ff6060;">WEBHOOK</div>
       <div class="skill-title">Webhook Manager</div>
       <div class="skill-desc">Send &amp; manage Discord webhooks with advanced options</div>
     </div>
     <div class="glass skill-card" onclick="navigate('tutorials')" style="cursor:pointer;">
-      <div class="skill-icon">📚</div>
+      <div class="skill-icon" style="font-size:1.4rem;color:#ff6060;">TUTORIALS</div>
       <div class="skill-title">Tutorials</div>
       <div class="skill-desc">Guides, tips &amp; how-tos curated by DOY Coder</div>
     </div>
@@ -259,7 +259,7 @@
       <div style="color:rgba(255,255,255,0.35);font-size:0.82rem;margin-top:2px;">Discord Webhook sender &amp; manager</div>
     </div>
     <div class="card">
-      <div class="card-title">📋 Saved Webhooks</div>
+      <div class="card-title">Saved Webhooks</div>
       <div class="webhook-list" id="webhook-list"><div class="log-empty">No webhooks saved yet.</div></div>
       <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
         <div style="flex:1;min-width:180px;"><label>Name</label><input type="text" id="new-name" placeholder="My Server"/></div>
@@ -268,7 +268,7 @@
       <div class="btn-row"><button class="btn btn-ghost btn-sm" onclick="saveWebhook()">＋ Save Webhook</button></div>
     </div>
     <div class="card">
-      <div class="card-title">✉️ Compose Message</div>
+      <div class="card-title">Compose Message</div>
       <label>Target Webhook</label>
       <select id="target-webhook"><option value="">— Select a saved webhook —</option></select>
       <label>Message Content</label>
@@ -292,7 +292,7 @@
         </div>
         <label>Thread Name</label><input type="text" id="adv-thread" placeholder="my-thread"/>
         <div id="embed-section" style="display:none;margin-top:18px;border-top:1px solid rgba(255,80,80,0.1);padding-top:18px;">
-          <div class="card-title" style="margin-bottom:10px;">📦 Embed</div>
+          <div class="card-title" style="margin-bottom:10px;">Embed</div>
           <label>Title</label><input type="text" id="emb-title" placeholder="Embed title"/>
           <label>Description</label><textarea id="emb-desc" placeholder="Embed description..." style="min-height:60px;"></textarea>
           <div class="embed-row" style="margin-top:0;"><div><label>Author</label><input type="text" id="emb-author" placeholder="Author name"/></div><div><label>Footer</label><input type="text" id="emb-footer" placeholder="Footer text"/></div></div>
@@ -307,7 +307,7 @@
       </div>
     </div>
     <div class="card">
-      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;"><span>📜 Send Log</span><button class="btn btn-ghost btn-sm" onclick="clearLog()">Clear Log</button></div>
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;"><span>Send Log</span><button class="btn btn-ghost btn-sm" onclick="clearLog()">Clear Log</button></div>
       <div class="log-list" id="log-list"><div class="log-empty">No messages sent yet.</div></div>
     </div>
   </div>
@@ -319,7 +319,7 @@
     <span class="back" onclick="navigate('home')">← DOY Coder</span>
 
     <div class="tut-header">
-      <h1>📚 Tutorials</h1>
+      <h1>Tutorials</h1>
       <p>Guides, tips &amp; how-tos — curated by DOY Coder</p>
     </div>
 
@@ -338,16 +338,16 @@
     </div>
 
     <div id="tut-featured-section">
-      <div class="tut-section-label">⭐ Featured</div>
+      <div class="tut-section-label">Featured</div>
       <div class="tut-featured-grid" id="tut-featured-grid"></div>
     </div>
 
     <div id="tut-list-section">
-      <div class="tut-section-label" id="tut-list-label">📋 All Tutorials</div>
+      <div class="tut-section-label" id="tut-list-label">All Tutorials</div>
       <div class="tut-list" id="tut-list"></div>
     </div>
 
-    <div class="tut-empty" id="tut-empty" style="display:none;">No tutorials found 🔍</div>
+    <div class="tut-empty" id="tut-empty" style="display:none;">No tutorials found.</div>
   </div>
 </div>
 
@@ -501,8 +501,8 @@ function renderTutorials() {
 
   document.getElementById('tut-list-section').style.display = showList ? '' : 'none';
   if (showList) {
-    const labels = { all:'📋 All Tutorials', featured:'⭐ Featured', tutorial:'📖 Tutorials', security:'🔒 Security', tip:'💡 Tips' };
-    document.getElementById('tut-list-label').textContent = labels[tutCat] || '📋 Tutorials';
+    const labels = { all:'All Tutorials', featured:'Featured', tutorial:'Tutorials', security:'Security', tip:'Tips' };
+    document.getElementById('tut-list-label').textContent = labels[tutCat] || 'Tutorials';
     document.getElementById('tut-list').innerHTML = listItems.map(t => tutCard(t, true)).join('');
   }
 
