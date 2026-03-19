@@ -24,7 +24,7 @@
     /* ── Home ── */
     .hero-card { width: 100%; max-width: 680px; padding: 52px 48px; text-align: center; }
     .avatar { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg,#ff2a2a,#8b0000); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 24px; box-shadow: 0 0 30px rgba(255,40,40,0.45); }
-    .name { font-size: 2.6rem; font-weight: 700; letter-spacing: 2px; background: linear-gradient(90deg,#ff6060,#ff2020,#cc0000); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
+    .name { font-size: 2.6rem; font-weight: 700; letter-spacing: 2px; background: linear-gradient(90deg,#ff4040,#cc0000,#660000,#1a0000); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
     .badge { display: inline-flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; justify-content: center; }
     .badge span { background: rgba(200,0,0,0.25); border: 1px solid rgba(255,80,80,0.4); border-radius: 30px; padding: 4px 16px; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; color: #ff8080; }
     .bio { color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.8; max-width: 520px; margin: 0 auto; }
@@ -188,6 +188,80 @@
     .tut-modal-desc { font-size: 0.84rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
     .tut-modal-close { position: absolute; top: 12px; right: 14px; background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.3); border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #ff6060; font-size: 1rem; transition: background 0.2s; }
     .tut-modal-close:hover { background: rgba(255,80,80,0.3); }
+
+    /* ══ INTRO OVERLAY ══ */
+    #intro-overlay {
+      position: fixed; inset: 0; z-index: 999;
+      background: #0a0000;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      opacity: 1; transition: opacity 0.8s ease;
+    }
+    #intro-overlay.fade-out { opacity: 0; pointer-events: none; }
+    #intro-overlay.hidden { display: none; }
+
+    .intro-words {
+      position: relative; width: 100%; height: 100vh;
+      overflow: hidden;
+    }
+    .intro-word {
+      position: absolute;
+      font-weight: 800;
+      color: rgba(255,255,255,0.0);
+      white-space: nowrap;
+      animation: floatWord linear infinite;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+    }
+    @keyframes floatWord {
+      0%   { transform: translateY(110vh) translateX(0) rotate(var(--rot)); color: rgba(200,0,0,0); }
+      15%  { color: var(--clr); }
+      85%  { color: var(--clr); }
+      100% { transform: translateY(-20vh) translateX(var(--dx)) rotate(var(--rot)); color: rgba(200,0,0,0); }
+    }
+
+    .intro-skip {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+      color: rgba(255,255,255,0.4); font-size: 0.78rem; letter-spacing: 2px;
+      cursor: pointer; z-index: 1000; text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+    .intro-skip:hover { color: rgba(255,255,255,0.8); }
+
+    /* ══ LINK SHORTENER PAGE ══ */
+    #page-links { justify-content: flex-start; align-items: stretch; max-width: 720px; margin: 0 auto; width: 100%; }
+    .links-page { display: flex; flex-direction: column; gap: 22px; width: 100%; }
+    .link-result {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,80,80,0.2);
+      border-radius: 12px; padding: 16px 18px;
+      display: flex; align-items: center; gap: 12px;
+      animation: fadeIn 0.3s ease;
+    }
+    .link-result a { color: #ff8080; font-size: 0.9rem; text-decoration: none; flex: 1; word-break: break-all; }
+    .link-result a:hover { color: #ffaaaa; }
+    .link-copy {
+      background: rgba(200,0,0,0.3); border: 1px solid rgba(255,80,80,0.3);
+      border-radius: 8px; color: #fff; font-size: 0.78rem; padding: 6px 14px;
+      cursor: pointer; white-space: nowrap; transition: background 0.2s; flex-shrink: 0;
+    }
+    .link-copy:hover { background: rgba(200,0,0,0.5); }
+    .link-copy.copied { background: rgba(0,180,80,0.3); border-color: rgba(0,200,80,0.4); }
+    .link-history { display: flex; flex-direction: column; gap: 10px; }
+    .link-history-item {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,80,80,0.1);
+      border-radius: 10px; padding: 10px 14px;
+    }
+    .link-orig { font-size: 0.75rem; color: rgba(255,255,255,0.3); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .link-short { font-size: 0.82rem; color: #ff8080; flex-shrink: 0; text-decoration: none; }
+    .link-short:hover { color: #ffaaaa; }
+    .link-hcopy { background: none; border: none; color: rgba(255,80,80,0.4); cursor: pointer; font-size: 0.9rem; padding: 0 4px; transition: color 0.2s; flex-shrink: 0; }
+    .link-hcopy:hover { color: #ff6060; }
+    #link-status { font-size: 0.8rem; padding: 8px 14px; border-radius: 8px; display: none; }
+    #link-status.loading { background: rgba(255,200,0,0.08); border: 1px solid rgba(255,200,0,0.2); color: #ffcc44; display: block; }
+    #link-status.error   { background: rgba(255,40,40,0.1); border: 1px solid rgba(255,40,40,0.3); color: #ff6060; display: block; }
   </style>
 </head>
 <body>
@@ -244,6 +318,11 @@
       <div class="skill-icon" style="font-size:1.4rem;color:#ff6060;">TUTORIALS</div>
       <div class="skill-title">Tutorials</div>
       <div class="skill-desc">Guides, tips &amp; how-tos curated by DOY Coder</div>
+    </div>
+    <div class="glass skill-card" onclick="navigate('links')" style="cursor:pointer;">
+      <div class="skill-icon" style="font-size:1.4rem;color:#ff6060;">LINKS</div>
+      <div class="skill-title">Link Shortener</div>
+      <div class="skill-desc">Shorten any URL instantly and copy with one click</div>
     </div>
   </div>
 
@@ -363,6 +442,49 @@
   </div>
 </div>
 
+
+<!-- ══════════ INTRO OVERLAY (Webhook) ══════════ -->
+<div id="intro-overlay" class="hidden">
+  <div class="intro-words" id="intro-words"></div>
+  <div class="intro-skip" onclick="skipIntro()">skip</div>
+</div>
+
+<!-- ══════════ LINK SHORTENER ══════════ -->
+<div class="page page-wide" id="page-links">
+  <div class="links-page">
+    <span class="back" onclick="navigate('home')">← DOY Coder</span>
+
+    <div>
+      <h1 style="font-size:1.8rem;font-weight:700;letter-spacing:1.5px;background:linear-gradient(90deg,#ff4040,#cc0000,#660000,#1a0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Link Shortener</h1>
+      <div style="color:rgba(255,255,255,0.35);font-size:0.82rem;margin-top:2px;">Shorten any URL instantly</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Shorten URL</div>
+      <label>Enter URL</label>
+      <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;">
+        <input type="url" id="link-input" placeholder="https://example.com/very/long/url..." style="flex:1;min-width:200px;"/>
+        <button class="btn btn-primary" onclick="shortenLink()" style="flex-shrink:0;">Shorten</button>
+      </div>
+      <div id="link-status"></div>
+      <div id="link-result-wrap" style="margin-top:14px;display:none;">
+        <div class="link-result">
+          <a id="link-result-a" href="" target="_blank"></a>
+          <button class="link-copy" id="link-copy-btn" onclick="copyLink()">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="link-history-card" style="display:none;">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;">
+        <span>History</span>
+        <button class="btn btn-ghost btn-sm" onclick="clearLinks()">Clear</button>
+      </div>
+      <div class="link-history" id="link-history"></div>
+    </div>
+  </div>
+</div>
+
 <!-- SNS -->
 <div class="sns-bar">
   <a href="https://discord.gg/EvWTjsGN7Z" target="_blank" title="Discord">
@@ -393,7 +515,8 @@ window.addEventListener('popstate', e => {
 });
 (function() {
   const path = location.pathname.replace(/^\/|\/$/g, '');
-  if (path === 'webhook' || path === 'tutorials') {
+  const valid = ['webhook','tutorials','links'];
+  if (valid.includes(path)) {
     document.getElementById('page-home').classList.remove('active');
     document.getElementById('page-' + path).classList.add('active');
     if (path === 'tutorials') renderTutorials();
@@ -401,20 +524,116 @@ window.addEventListener('popstate', e => {
 })();
 
 // ══════════════════════════
-// YOUTUBE BGM
+// INTRO OVERLAY
+// ══════════════════════════
+const INTRO_WORDS = ['WELCOME','TO','DOY','HOME','PAGES'];
+let introTimer = null;
+
+// keyframe を動的追加
+(function(){
+  const s = document.createElement('style');
+  s.textContent = `
+    @keyframes floatUp {
+      0%   { opacity:0; transform: translateY(0) translateX(var(--dx)) rotate(var(--rot)) scale(0.8); }
+      15%  { opacity: var(--a); }
+      85%  { opacity: var(--a); }
+      100% { opacity:0; transform: translateY(-110vh) translateX(calc(var(--dx) * 1.5)) rotate(calc(var(--rot) * 2)) scale(1.1); }
+    }
+    @keyframes introPulse {
+      0%,100% { opacity:0.8; letter-spacing:6px; }
+      50%     { opacity:1;   letter-spacing:10px; }
+    }
+  `;
+  document.head.appendChild(s);
+})();
+
+function showIntro() {
+  const overlay = document.getElementById('intro-overlay');
+  const wordsEl = document.getElementById('intro-words');
+  if (!overlay) return;
+  overlay.style.display = 'flex';
+  overlay.style.opacity = '1';
+  wordsEl.innerHTML = '';
+
+  // 中央のメインテキスト
+  const center = document.createElement('div');
+  center.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:5;pointer-events:none;white-space:nowrap;';
+  center.innerHTML = '<div style="font-size:clamp(1.2rem,3.5vw,2.2rem);font-weight:900;text-transform:uppercase;letter-spacing:6px;background:linear-gradient(90deg,#ff5050,#cc0000,#660000,#111);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:introPulse 1.6s ease-in-out infinite;">WELCOME TO DOY HOME PAGES</div>';
+  wordsEl.appendChild(center);
+
+  // 浮遊する単語群
+  const colors = [
+    'rgba(255,50,50,VAL)','rgba(200,0,0,VAL)','rgba(255,100,100,VAL)',
+    'rgba(150,0,0,VAL)','rgba(255,180,180,VAL)','rgba(100,0,0,VAL)'
+  ];
+  const sizes = [0.75, 0.9, 1.1, 1.4, 1.8, 2.2, 2.8];
+  for (let i = 0; i < 35; i++) {
+    const el = document.createElement('div');
+    el.style.position = 'absolute';
+    el.style.fontWeight = '800';
+    el.style.textTransform = 'uppercase';
+    el.style.letterSpacing = '3px';
+    el.style.whiteSpace = 'nowrap';
+    el.style.pointerEvents = 'none';
+    el.textContent = INTRO_WORDS[Math.floor(Math.random() * INTRO_WORDS.length)];
+    const size  = sizes[Math.floor(Math.random() * sizes.length)];
+    const dur   = 3 + Math.random() * 5;
+    const delay = -Math.random() * 7;
+    const left  = Math.random() * 100;
+    const bot   = -10 + Math.random() * 30;
+    const dx    = ((Math.random() - 0.5) * 160).toFixed(0) + 'px';
+    const rot   = ((Math.random() - 0.5) * 30).toFixed(1) + 'deg';
+    const alpha = (0.12 + Math.random() * 0.35).toFixed(2);
+    const clr   = colors[Math.floor(Math.random() * colors.length)].replace('VAL', alpha);
+    el.style.cssText += `;font-size:${size}rem;left:${left}%;bottom:${bot}%;color:${clr};--dx:${dx};--rot:${rot};--a:${alpha};animation:floatUp ${dur}s ${delay}s linear infinite;`;
+    wordsEl.appendChild(el);
+  }
+
+  // 4秒後自動スキップ
+  clearTimeout(introTimer);
+  introTimer = setTimeout(skipIntro, 4000);
+}
+
+function skipIntro() {
+  clearTimeout(introTimer);
+  const overlay = document.getElementById('intro-overlay');
+  if (!overlay) return;
+  overlay.style.transition = 'opacity 0.8s ease';
+  overlay.style.opacity = '0';
+  setTimeout(() => { overlay.style.display = 'none'; }, 850);
+}
+
+// ══════════════════════════
+// YOUTUBE BGM (自動再生)
 // ══════════════════════════
 const VIDEO_ID = 'Cesg5bCKfaM';
 let player, isPlaying = false, playerReady = false;
+
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('yt-player', {
     videoId: VIDEO_ID,
-    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: VIDEO_ID, fs: 0, rel: 0 },
+    playerVars: { autoplay: 1, controls: 0, loop: 1, playlist: VIDEO_ID, fs: 0, rel: 0, mute: 0 },
     events: {
-      onReady: () => { playerReady = true; },
-      onStateChange: e => { if (e.data === YT.PlayerState.ENDED) player.playVideo(); }
+      onReady: (e) => {
+        playerReady = true;
+        // 自動再生 (ブラウザポリシー対策: unmute後にplay)
+        e.target.playVideo();
+      },
+      onStateChange: (e) => {
+        if (e.data === YT.PlayerState.PLAYING) {
+          isPlaying = true;
+          document.getElementById('music-btn').classList.add('playing');
+          document.getElementById('icon-off').style.display = 'none';
+          document.getElementById('icon-on').style.display = '';
+        }
+        if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+          if (e.data === YT.PlayerState.ENDED) e.target.playVideo();
+        }
+      }
     }
   });
 }
+
 function toggleMusic() {
   if (!playerReady) return;
   const btn = document.getElementById('music-btn');
@@ -430,6 +649,11 @@ function toggleMusic() {
     document.getElementById('icon-on').style.display = '';
   }
 }
+
+// サイト読み込み時にイントロを表示
+window.addEventListener('load', () => {
+  showIntro();
+});
 
 // ══════════════════════════
 // PARTICLES
@@ -463,26 +687,22 @@ const TUTORIALS = [
   { id:5, title:'Stay Safe Online', desc:'Essential security tips every developer and web user should know.', category:'security', duration:'12:18', views:'31.7K', rating:4.9, videoId:'aEmassVZV88', thumb:'' },
   { id:6, title:'CSS Animation Tips', desc:'Quick tips to level up your CSS animations and transitions.', category:'tip', duration:'05:44', views:'9.2K', rating:4.6, videoId:'zHUpx90NerM', thumb:'https://img.youtube.com/vi/zHUpx90NerM/mqdefault.jpg' },
 ];
-
 let tutCat = 'all', tutQ = '';
-
 function stars(r) {
-  return '<span class="tut-stars">' + '★'.repeat(Math.floor(r)) + (r%1>=0.5?'½':'') + ' <span style="color:rgba(255,255,255,0.35);">(' + r + ')</span></span>';
+  return '<span class="tut-stars">'+'★'.repeat(Math.floor(r))+(r%1>=0.5?'½':'')+'<span style="color:rgba(255,255,255,0.35);margin-left:3px;">('+r+')</span></span>';
 }
-
 function tutCard(t, horizontal) {
   const thumb = t.thumb
-    ? '<img src="'+t.thumb+'" alt="'+t.title+'" loading="lazy" onerror="this.parentNode.innerHTML=\'<div class=tut-thumb-ph>▶</div>\'">'
-    : '<div class="tut-thumb-ph">▶</div>';
+    ? '<img src="'+t.thumb+'" alt="'+t.title+'" loading="lazy" onerror="this.parentNode.innerHTML='<div class=tut-thumb-ph>&#9654;</div>'">'
+    : '<div class="tut-thumb-ph">&#9654;</div>';
   return '<div class="tut-card'+(horizontal?' horizontal':'')+'" onclick="openModal('+t.id+')">'
     +'<div class="tut-thumb">'+thumb
     +'<span class="tut-tag '+t.category+'">'+t.category.toUpperCase()+'</span>'
-    +'<span class="tut-duration">⏱ '+t.duration+'</span></div>'
+    +'<span class="tut-duration">'+t.duration+'</span></div>'
     +'<div class="tut-body"><div class="tut-title">'+t.title+'</div><div class="tut-desc">'+t.desc+'</div>'
-    +'<div class="tut-meta"><span class="tut-views">👁 '+t.views+' views</span>'+stars(t.rating)+'</div>'
+    +'<div class="tut-meta"><span class="tut-views">'+t.views+' views</span>'+stars(t.rating)+'</div>'
     +'</div></div>';
 }
-
 function renderTutorials() {
   const q = tutQ.toLowerCase();
   const filtered = TUTORIALS.filter(t =>
@@ -491,24 +711,18 @@ function renderTutorials() {
   );
   const featured = filtered.filter(t => t.category === 'featured');
   const others   = filtered.filter(t => t.category !== 'featured');
-
   const showFeatured = featured.length > 0 && (tutCat === 'all' || tutCat === 'featured');
   const listItems    = tutCat === 'all' ? others : (tutCat === 'featured' ? featured : filtered);
-  const showList     = listItems.length > 0;
-
   document.getElementById('tut-featured-section').style.display = showFeatured ? '' : 'none';
-  if (showFeatured) document.getElementById('tut-featured-grid').innerHTML = featured.map(t => tutCard(t, false)).join('');
-
-  document.getElementById('tut-list-section').style.display = showList ? '' : 'none';
-  if (showList) {
+  if (showFeatured) document.getElementById('tut-featured-grid').innerHTML = featured.map(t => tutCard(t,false)).join('');
+  document.getElementById('tut-list-section').style.display = listItems.length ? '' : 'none';
+  if (listItems.length) {
     const labels = { all:'All Tutorials', featured:'Featured', tutorial:'Tutorials', security:'Security', tip:'Tips' };
-    document.getElementById('tut-list-label').textContent = labels[tutCat] || 'Tutorials';
-    document.getElementById('tut-list').innerHTML = listItems.map(t => tutCard(t, true)).join('');
+    document.getElementById('tut-list-label').textContent = labels[tutCat]||'Tutorials';
+    document.getElementById('tut-list').innerHTML = listItems.map(t => tutCard(t,true)).join('');
   }
-
-  document.getElementById('tut-empty').style.display = (!showFeatured && !showList) ? 'block' : 'none';
+  document.getElementById('tut-empty').style.display = (!showFeatured && !listItems.length) ? 'block' : 'none';
 }
-
 document.querySelectorAll('.tut-filter').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tut-filter').forEach(b => b.classList.remove('active'));
@@ -517,15 +731,12 @@ document.querySelectorAll('.tut-filter').forEach(btn => {
     renderTutorials();
   });
 });
-document.getElementById('tut-search').addEventListener('input', function() {
-  tutQ = this.value; renderTutorials();
-});
-
+document.getElementById('tut-search').addEventListener('input', function() { tutQ = this.value; renderTutorials(); });
 function openModal(id) {
   const t = TUTORIALS.find(x => x.id === id); if (!t) return;
   document.getElementById('tut-iframe').src = 'https://www.youtube.com/embed/'+t.videoId+'?autoplay=1&rel=0';
   document.getElementById('tut-modal-title').textContent = t.title;
-  document.getElementById('tut-modal-desc').textContent = t.desc;
+  document.getElementById('tut-modal-desc').textContent  = t.desc;
   document.getElementById('tut-overlay').classList.add('open');
 }
 function closeTutModal(e) {
@@ -533,16 +744,93 @@ function closeTutModal(e) {
   document.getElementById('tut-overlay').classList.remove('open');
   document.getElementById('tut-iframe').src = '';
 }
-
-// 初期表示（tutorialsページが直接開かれた場合）
 if (document.getElementById('page-tutorials').classList.contains('active')) renderTutorials();
+
+// ══════════════════════════
+// LINK SHORTENER
+// ══════════════════════════
+let linkHistory = JSON.parse(localStorage.getItem('doy_links') || '[]');
+let lastShortUrl = '';
+
+async function shortenLink() {
+  const input = document.getElementById('link-input').value.trim();
+  if (!input) return;
+  try { new URL(input); } catch(e) { showLinkStatus('error','Please enter a valid URL.'); return; }
+  showLinkStatus('loading','Shortening...');
+  try {
+    const res = await fetch('https://tinyurl.com/api-create.php?url=' + encodeURIComponent(input));
+    if (!res.ok) throw new Error('API error');
+    const short = await res.text();
+    lastShortUrl = short.trim();
+    document.getElementById('link-result-a').href = lastShortUrl;
+    document.getElementById('link-result-a').textContent = lastShortUrl;
+    document.getElementById('link-result-wrap').style.display = 'block';
+    document.getElementById('link-copy-btn').textContent = 'Copy';
+    document.getElementById('link-copy-btn').className = 'link-copy';
+    document.getElementById('link-status').style.display = 'none';
+    // 履歴に追加
+    linkHistory.unshift({ original: input, short: lastShortUrl, time: new Date().toLocaleString('ja-JP') });
+    if (linkHistory.length > 50) linkHistory.pop();
+    localStorage.setItem('doy_links', JSON.stringify(linkHistory));
+    renderLinkHistory();
+  } catch(e) {
+    showLinkStatus('error', 'Failed to shorten. Please try again.');
+  }
+}
+
+function showLinkStatus(type, msg) {
+  const el = document.getElementById('link-status');
+  el.className = type; el.textContent = msg; el.style.display = 'block';
+}
+
+function copyLink() {
+  if (!lastShortUrl) return;
+  navigator.clipboard.writeText(lastShortUrl).then(() => {
+    const btn = document.getElementById('link-copy-btn');
+    btn.textContent = 'Copied!';
+    btn.className = 'link-copy copied';
+    setTimeout(() => { btn.textContent = 'Copy'; btn.className = 'link-copy'; }, 2000);
+  });
+}
+
+function copyHistoryLink(url) {
+  navigator.clipboard.writeText(url).then(() => {
+    const btns = document.querySelectorAll('.link-hcopy');
+    btns.forEach(b => { if (b.dataset.url === url) { b.textContent = '✓'; setTimeout(() => b.textContent = '⎘', 1500); }});
+  });
+}
+
+function clearLinks() {
+  linkHistory = [];
+  localStorage.removeItem('doy_links');
+  renderLinkHistory();
+}
+
+function renderLinkHistory() {
+  const card = document.getElementById('link-history-card');
+  const list = document.getElementById('link-history');
+  if (!linkHistory.length) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+  list.innerHTML = linkHistory.map(l =>
+    '<div class="link-history-item">'
+    +'<span class="link-orig">'+l.original+'</span>'
+    +'<a class="link-short" href="'+l.short+'" target="_blank">'+l.short+'</a>'
+    +'<button class="link-hcopy" data-url="'+l.short+'" onclick="copyHistoryLink(''+l.short+'')">⎘</button>'
+    +'</div>'
+  ).join('');
+}
+
+document.getElementById('link-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') shortenLink();
+});
+
+renderLinkHistory();
 
 // ══════════════════════════
 // WEBHOOK
 // ══════════════════════════
 let webhooks = JSON.parse(localStorage.getItem('doy_webhooks') || '[]');
 let logs     = JSON.parse(localStorage.getItem('dut_logs') || '[]');
-
 function toggleAdvanced() {
   document.getElementById('adv-body').classList.toggle('open');
   document.getElementById('adv-arrow').classList.toggle('open');
@@ -550,7 +838,6 @@ function toggleAdvanced() {
 document.getElementById('opt-embed').addEventListener('change', function() {
   document.getElementById('embed-section').style.display = this.checked ? 'block' : 'none';
 });
-
 function saveWebhook() {
   const name = document.getElementById('new-name').value.trim();
   const url  = document.getElementById('new-url').value.trim();
@@ -586,7 +873,6 @@ function renderWebhooks() {
 document.getElementById('target-webhook').addEventListener('change', function() {
   const id = parseInt(this.value); if (id) selectWebhook(id);
 });
-
 async function sendWebhook() {
   const selId = parseInt(document.getElementById('target-webhook').value);
   const hook  = webhooks.find(w => w.id === selId);
@@ -621,13 +907,13 @@ async function sendWebhook() {
   try {
     const res = await fetch(hook.url, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
     const preview = content || (useEmbed ? '[Embed]' : '');
-    if (res.ok || res.status===204) { showStatus('success','✓ Sent to "'+hook.name+'"'); addLog('ok',hook.name,preview); }
-    else { const err = await res.json().catch(()=>({})); showStatus('error','✗ Error '+res.status+': '+(err.message||'Unknown')); addLog('fail',hook.name,preview); }
-  } catch(e) { showStatus('error','✗ Network error: '+e.message); addLog('fail',hook.name,content||'[Embed]'); }
+    if (res.ok || res.status===204) { showStatus('success','Sent to "'+hook.name+'"'); addLog('ok',hook.name,preview); }
+    else { const err = await res.json().catch(()=>({})); showStatus('error','Error '+res.status+': '+(err.message||'Unknown')); addLog('fail',hook.name,preview); }
+  } catch(e) { showStatus('error','Network error: '+e.message); addLog('fail',hook.name,content||'[Embed]'); }
 }
 function showStatus(type, msg) {
   const el = document.getElementById('send-status');
-  el.className = type; el.textContent = msg;
+  el.className = type; el.textContent = msg; el.style.display = 'block';
   if (type === 'success') setTimeout(() => el.style.display='none', 4000);
 }
 function clearForm() {
@@ -645,12 +931,12 @@ function addLog(status, name, preview) {
   localStorage.setItem('dut_logs', JSON.stringify(logs));
   renderLogs();
 }
-function clearLog() { logs=[]; localStorage.setItem('dut_logs', JSON.stringify(logs)); renderLogs(); }
+function clearLog() { logs=[]; localStorage.setItem('dut_logs','[]'); renderLogs(); }
 function renderLogs() {
   const list = document.getElementById('log-list');
   if (!logs.length) { list.innerHTML='<div class="log-empty">No messages sent yet.</div>'; return; }
   list.innerHTML = logs.map(l => '<div class="log-item '+l.status+'">'
-    +'<div class="log-top"><span class="log-badge '+l.status+'">'+(l.status==='ok'?'✓ SUCCESS':'✗ FAILED')+'</span>'
+    +'<div class="log-top"><span class="log-badge '+l.status+'">'+(l.status==='ok'?'SUCCESS':'FAILED')+'</span>'
     +'<span class="log-webhook">'+l.name+'</span><span class="log-time">'+l.date+' '+l.time+'</span></div>'
     +'<div class="log-preview">'+(l.preview||'—')+'</div></div>').join('');
 }
