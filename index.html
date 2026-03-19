@@ -6,172 +6,73 @@
   <title>DOY Coder</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      min-height: 100vh;
-      background: #0a0a0a;
-      font-family: 'Segoe UI', sans-serif;
-      overflow-x: hidden;
-      color: #fff;
-    }
-
-    #canvas {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%; z-index: 0;
-    }
-
-    .bg {
-      position: fixed; inset: 0;
-      background: radial-gradient(ellipse at top left, #3a0000 0%, #1a0000 40%, #0a0a0a 100%);
-      z-index: 0;
-    }
+    body { min-height: 100vh; background: #0a0a0a; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; color: #fff; }
+    #canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    .bg { position: fixed; inset: 0; background: radial-gradient(ellipse at top left, #3a0000 0%, #1a0000 40%, #0a0a0a 100%); z-index: 0; }
 
     /* ── Pages ── */
-    .page {
-      position: relative; z-index: 1;
-      min-height: 100vh;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 20px 60px;
-      gap: 28px;
-    }
-    .page.active { display: flex; }
+    .page { position: relative; z-index: 1; min-height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 80px 20px 60px; gap: 28px; }
+    .page.active { display: flex; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
-    /* Webhook page left-align */
-    #page-webhook {
-      justify-content: flex-start;
-      align-items: stretch;
-      max-width: 860px;
-      margin: 0 auto;
-      width: 100%;
-    }
+    .page-wide { justify-content: flex-start; align-items: stretch; max-width: 900px; margin: 0 auto; width: 100%; }
 
     /* ── Glass ── */
-    .glass {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,80,80,0.25);
-      border-radius: 20px;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 8px 32px rgba(180,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.06);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .glass:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(220,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.1);
-    }
+    .glass { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,80,80,0.25); border-radius: 20px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 8px 32px rgba(180,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.06); transition: transform 0.3s, box-shadow 0.3s; }
+    .glass:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(220,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.1); }
 
-    /* ── Hero ── */
+    /* ── Home ── */
     .hero-card { width: 100%; max-width: 680px; padding: 52px 48px; text-align: center; }
-    .avatar {
-      width: 90px; height: 90px; border-radius: 50%;
-      background: linear-gradient(135deg, #ff2a2a, #8b0000);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.2rem; margin: 0 auto 24px;
-      box-shadow: 0 0 30px rgba(255,40,40,0.45);
-    }
-    .name {
-      font-size: 2.6rem; font-weight: 700; letter-spacing: 2px;
-      background: linear-gradient(90deg, #ff6060, #ff2020, #cc0000);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text; margin-bottom: 6px;
-    }
+    .avatar { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg,#ff2a2a,#8b0000); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 24px; box-shadow: 0 0 30px rgba(255,40,40,0.45); }
+    .name { font-size: 2.6rem; font-weight: 700; letter-spacing: 2px; background: linear-gradient(90deg,#ff6060,#ff2020,#cc0000); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
     .badge { display: inline-flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; justify-content: center; }
-    .badge span {
-      background: rgba(200,0,0,0.25); border: 1px solid rgba(255,80,80,0.4);
-      border-radius: 30px; padding: 4px 16px; font-size: 0.8rem;
-      letter-spacing: 1px; text-transform: uppercase; color: #ff8080;
-    }
+    .badge span { background: rgba(200,0,0,0.25); border: 1px solid rgba(255,80,80,0.4); border-radius: 30px; padding: 4px 16px; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; color: #ff8080; }
     .bio { color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.8; max-width: 520px; margin: 0 auto; }
-    .accent-line {
-      width: 60px; height: 3px;
-      background: linear-gradient(90deg, #ff2020, transparent);
-      border-radius: 2px; margin: 20px auto 0;
-    }
-
-    /* ── Cards row ── */
+    .accent-line { width: 60px; height: 3px; background: linear-gradient(90deg,#ff2020,transparent); border-radius: 2px; margin: 20px auto 0; }
     .cards-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; max-width: 720px; width: 100%; }
     .skill-card { flex: 1 1 180px; padding: 28px 24px; text-align: center; }
     .skill-icon { font-size: 2rem; margin-bottom: 12px; }
     .skill-title { font-size: 0.95rem; font-weight: 600; color: #ff6060; letter-spacing: 0.5px; margin-bottom: 6px; }
     .skill-desc { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
-
-    /* ── Info card ── */
     .info-card { width: 100%; max-width: 680px; padding: 36px 44px; }
     .section-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: #cc2222; margin-bottom: 16px; }
     .info-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
     .info-list li { display: flex; align-items: flex-start; gap: 12px; color: rgba(255,255,255,0.75); font-size: 0.95rem; line-height: 1.6; }
     .info-list li::before { content: "▸"; color: #ff4040; flex-shrink: 0; margin-top: 2px; }
-
     footer { color: rgba(255,255,255,0.25); font-size: 0.75rem; letter-spacing: 1px; padding: 10px; }
 
-    /* ── Music Player (固定丸ボタン) ── */
-    #music-btn {
-      position: fixed; bottom: 16px; right: 16px; z-index: 200;
-      width: 46px; height: 46px; border-radius: 50%;
-      background: rgba(153,0,0,0.5);
-      border: 1px solid #7f1d1d;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      user-select: none;
-    }
-    #music-btn:hover { background: rgba(153,0,0,0.7); box-shadow: 0 4px 24px rgba(200,0,0,0.4); }
-    #music-btn.playing { box-shadow: 0 0 0 2px rgba(255,60,60,0.4), 0 4px 20px rgba(200,0,0,0.5); animation: pulse 1.8s ease-in-out infinite; }
-    @keyframes pulse {
-      0%,100% { box-shadow: 0 0 0 2px rgba(255,60,60,0.3), 0 4px 16px rgba(200,0,0,0.4); }
-      50% { box-shadow: 0 0 0 4px rgba(255,60,60,0.5), 0 4px 28px rgba(255,40,40,0.6); }
-    }
-    #music-btn svg { width: 20px; height: 20px; stroke: #f87171; transition: stroke 0.2s; }
-    #music-btn:hover svg { stroke: #ff9999; }
+    /* ── Music Button ── */
+    #music-btn { position: fixed; bottom: 16px; right: 16px; z-index: 300; width: 46px; height: 46px; border-radius: 50%; background: rgba(153,0,0,0.5); border: 1px solid #7f1d1d; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 16px rgba(0,0,0,0.4); backdrop-filter: blur(10px); user-select: none; }
+    #music-btn:hover { background: rgba(153,0,0,0.7); }
+    #music-btn.playing { animation: pulse 1.8s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 2px rgba(255,60,60,0.3),0 4px 16px rgba(200,0,0,0.4); } 50% { box-shadow: 0 0 0 4px rgba(255,60,60,0.5),0 4px 28px rgba(255,40,40,0.6); } }
+    #music-btn svg { width: 20px; height: 20px; stroke: #f87171; }
     #yt-player { position: fixed; top: -9999px; left: -9999px; width: 1px; height: 1px; pointer-events: none; opacity: 0; }
 
-    /* ── Back link ── */
-    .back {
-      display: inline-flex; align-items: center; gap: 8px;
-      color: rgba(255,255,255,0.4); font-size: 0.82rem;
-      text-decoration: none; cursor: pointer;
-      transition: color 0.2s; width: fit-content;
-    }
+    /* ── SNS ── */
+    .sns-bar { position: fixed; bottom: 76px; right: 16px; z-index: 200; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+    .sns-bar a { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(10px); transition: transform 0.25s, background 0.25s; text-decoration: none; }
+    .sns-bar a:hover { transform: scale(1.18); background: rgba(255,255,255,0.14); }
+    .sns-bar a svg { width: 20px; height: 20px; fill: #fff; }
+
+    /* ── Back ── */
+    .back { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.4); font-size: 0.82rem; cursor: pointer; transition: color 0.2s; width: fit-content; }
     .back:hover { color: #ff6060; }
 
-    /* ── Webhook page styles ── */
+    /* ══════════════════════════
+       WEBHOOK PAGE
+    ══════════════════════════ */
     .wh-page { display: flex; flex-direction: column; gap: 22px; width: 100%; }
-
-    .card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,80,80,0.2);
-      border-radius: 18px;
-      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 8px 32px rgba(180,0,0,0.15);
-      padding: 24px 28px;
-    }
+    .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,80,80,0.2); border-radius: 18px; backdrop-filter: blur(14px); box-shadow: 0 8px 32px rgba(180,0,0,0.15); padding: 24px 28px; }
     .card-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 2px; color: #cc2222; margin-bottom: 16px; }
-
     label { display: block; font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-bottom: 6px; margin-top: 14px; }
     label:first-of-type { margin-top: 0; }
-
-    input[type="text"], input[type="url"], textarea, select {
-      width: 100%; background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,80,80,0.2); border-radius: 10px;
-      color: #fff; font-size: 0.9rem; padding: 10px 14px;
-      outline: none; transition: border-color 0.2s; font-family: inherit;
-    }
+    input[type="text"], input[type="url"], textarea, select { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,80,80,0.2); border-radius: 10px; color: #fff; font-size: 0.9rem; padding: 10px 14px; outline: none; transition: border-color 0.2s; font-family: inherit; }
     input[type="text"]:focus, input[type="url"]:focus, textarea:focus, select:focus { border-color: rgba(255,80,80,0.6); }
     textarea { resize: vertical; min-height: 90px; }
     select option { background: #1a0000; }
-
     .webhook-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
-    .webhook-item {
-      display: flex; align-items: center; gap: 10px;
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,80,80,0.12);
-      border-radius: 10px; padding: 10px 14px; cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
-    }
+    .webhook-item { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,80,80,0.12); border-radius: 10px; padding: 10px 14px; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
     .webhook-item:hover { background: rgba(255,80,80,0.08); border-color: rgba(255,80,80,0.3); }
     .webhook-item.active { border-color: rgba(255,80,80,0.6); background: rgba(255,80,80,0.1); }
     .webhook-dot { width: 8px; height: 8px; border-radius: 50%; background: #ff4040; flex-shrink: 0; }
@@ -179,56 +80,34 @@
     .webhook-url-preview { font-size: 0.72rem; color: rgba(255,255,255,0.3); flex: 2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .btn-del { background: none; border: none; color: rgba(255,80,80,0.4); cursor: pointer; font-size: 1rem; padding: 0 4px; transition: color 0.2s; }
     .btn-del:hover { color: #ff4040; }
-
-    .advanced-toggle {
-      display: flex; align-items: center; gap: 8px; cursor: pointer;
-      user-select: none; color: rgba(255,255,255,0.45); font-size: 0.82rem;
-      padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.06);
-      margin-top: 6px; transition: color 0.2s;
-    }
+    .advanced-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; color: rgba(255,255,255,0.45); font-size: 0.82rem; padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 6px; transition: color 0.2s; }
     .advanced-toggle:hover { color: #ff6060; }
     .toggle-arrow { font-size: 0.75rem; transition: transform 0.3s; display: inline-block; }
     .toggle-arrow.open { transform: rotate(90deg); }
     .advanced-body { display: none; margin-top: 14px; }
     .advanced-body.open { display: block; }
-
     .avatar-row { display: flex; gap: 12px; }
     .avatar-row > div { flex: 1; }
-
     .options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 4px; }
-    .opt-item {
-      display: flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,80,80,0.12);
-      border-radius: 8px; padding: 8px 12px; cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
-    }
+    .opt-item { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,80,80,0.12); border-radius: 8px; padding: 8px 12px; cursor: pointer; transition: background 0.2s; }
     .opt-item:hover { background: rgba(255,80,80,0.07); }
     .opt-item input[type="checkbox"] { accent-color: #ff3030; width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
     .opt-label { font-size: 0.82rem; color: rgba(255,255,255,0.7); }
     .opt-badge { font-size: 0.65rem; background: rgba(255,40,40,0.25); color: #ff8080; border-radius: 4px; padding: 1px 5px; margin-left: auto; }
-
     .embed-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .embed-color-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
     input[type="color"] { width: 40px; height: 36px; border: none; border-radius: 8px; background: none; cursor: pointer; padding: 0; }
-
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 22px; border-radius: 10px; border: none;
-      font-size: 0.88rem; font-weight: 600; cursor: pointer;
-      transition: all 0.2s; letter-spacing: 0.5px;
-    }
-    .btn-primary { background: linear-gradient(135deg, #cc0000, #880000); color: #fff; box-shadow: 0 4px 16px rgba(200,0,0,0.3); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 10px; border: none; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px; }
+    .btn-primary { background: linear-gradient(135deg,#cc0000,#880000); color: #fff; box-shadow: 0 4px 16px rgba(200,0,0,0.3); }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,0,0,0.45); }
     .btn-ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,80,80,0.25); color: rgba(255,255,255,0.7); }
     .btn-ghost:hover { background: rgba(255,80,80,0.1); color: #fff; }
     .btn-sm { padding: 7px 14px; font-size: 0.8rem; }
     .btn-row { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
-
     #send-status { font-size: 0.82rem; padding: 8px 14px; border-radius: 8px; display: none; margin-top: 10px; }
     #send-status.success { background: rgba(0,200,80,0.12); border: 1px solid rgba(0,200,80,0.3); color: #40ff80; display: block; }
     #send-status.error { background: rgba(255,40,40,0.12); border: 1px solid rgba(255,40,40,0.3); color: #ff6060; display: block; }
     #send-status.loading { background: rgba(255,200,0,0.08); border: 1px solid rgba(255,200,0,0.2); color: #ffcc44; display: block; }
-
     .log-list { display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow-y: auto; }
     .log-list::-webkit-scrollbar { width: 4px; }
     .log-list::-webkit-scrollbar-thumb { background: rgba(255,60,60,0.3); border-radius: 4px; }
@@ -236,7 +115,7 @@
     .log-item.ok { border-left: 3px solid #40ff80; }
     .log-item.fail { border-left: 3px solid #ff4040; }
     .log-top { display: flex; align-items: center; gap: 10px; }
-    .log-badge { font-size: 0.68rem; padding: 2px 8px; border-radius: 4px; font-weight: 700; letter-spacing: 0.5px; }
+    .log-badge { font-size: 0.68rem; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
     .log-badge.ok { background: rgba(0,200,80,0.2); color: #40ff80; }
     .log-badge.fail { background: rgba(255,40,40,0.2); color: #ff6060; }
     .log-time { font-size: 0.72rem; color: rgba(255,255,255,0.3); margin-left: auto; }
@@ -244,173 +123,71 @@
     .log-preview { font-size: 0.82rem; color: rgba(255,255,255,0.7); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .log-empty { color: rgba(255,255,255,0.25); font-size: 0.85rem; text-align: center; padding: 20px; }
 
-    /* ── SNS ── */
-    .sns-bar { position: fixed; bottom: 76px; right: 16px; z-index: 100; display: flex; flex-direction: column; gap: 14px; align-items: center; }
-    .sns-bar a {
-      display: flex; align-items: center; justify-content: center;
-      width: 44px; height: 44px; border-radius: 50%;
-      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
-      backdrop-filter: blur(10px); transition: transform 0.25s, background 0.25s, box-shadow 0.25s;
-      text-decoration: none;
-    }
-    .sns-bar a:hover { transform: scale(1.18); background: rgba(255,255,255,0.14); box-shadow: 0 4px 20px rgba(255,255,255,0.1); }
-    .sns-bar a svg { width: 20px; height: 20px; fill: #fff; }
-
-    /* ── Page transition ── */
-    .page { animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* ── Tutorials page ── */
-    #page-tutorials {
-      justify-content: flex-start;
-      align-items: stretch;
-      max-width: 960px;
-      margin: 0 auto;
-      width: 100%;
-    }
+    /* ══════════════════════════
+       TUTORIALS PAGE
+    ══════════════════════════ */
     .tut-page { display: flex; flex-direction: column; gap: 28px; width: 100%; }
-
-    .tut-header { text-align: center; padding: 10px 0 4px; }
-    .tut-header h1 {
-      font-size: 2rem; font-weight: 800; letter-spacing: 2px;
-      background: linear-gradient(90deg, #ff6060, #ff2020, #cc0000);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
+    .tut-header { text-align: center; padding: 4px 0; }
+    .tut-header h1 { font-size: 2rem; font-weight: 800; letter-spacing: 2px; background: linear-gradient(90deg,#ff6060,#ff2020,#cc0000); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .tut-header p { color: rgba(255,255,255,0.35); font-size: 0.85rem; margin-top: 6px; }
 
-    /* 検索＋フィルター */
     .tut-controls { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-    .tut-search-wrap {
-      position: relative; width: 100%; max-width: 520px;
-    }
-    .tut-search-wrap svg {
-      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-      width: 16px; height: 16px; stroke: rgba(255,255,255,0.3); fill: none;
-    }
-    #tut-search {
-      width: 100%; background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,80,80,0.2); border-radius: 12px;
-      color: #fff; font-size: 0.9rem; padding: 11px 14px 11px 40px;
-      outline: none; font-family: inherit; transition: border-color 0.2s;
-    }
+    .tut-search-wrap { position: relative; width: 100%; max-width: 520px; }
+    .tut-search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; stroke: rgba(255,255,255,0.3); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    #tut-search { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,80,80,0.2); border-radius: 12px; color: #fff; font-size: 0.9rem; padding: 11px 14px 11px 42px; outline: none; font-family: inherit; transition: border-color 0.2s; }
     #tut-search:focus { border-color: rgba(255,80,80,0.5); }
     #tut-search::placeholder { color: rgba(255,255,255,0.25); }
 
     .tut-filters { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-    .tut-filter {
-      padding: 6px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
-      border: 1px solid rgba(255,80,80,0.3); background: transparent;
-      color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px;
-    }
+    .tut-filter { padding: 6px 18px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: 1px solid rgba(255,80,80,0.3); background: transparent; color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s; }
     .tut-filter:hover { border-color: rgba(255,80,80,0.6); color: #fff; }
     .tut-filter.active { background: #cc0000; border-color: #cc0000; color: #fff; }
 
-    /* section label */
-    .tut-section-label {
-      font-size: 0.78rem; text-transform: uppercase; letter-spacing: 2px;
-      color: #ff4040; font-weight: 700; margin-bottom: 2px;
-    }
+    .tut-section-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 2px; color: #ff4040; font-weight: 700; margin-bottom: 10px; }
 
-    /* Featured 2カラム */
-    .tut-featured-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
-    }
+    .tut-featured-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     @media (max-width: 620px) { .tut-featured-grid { grid-template-columns: 1fr; } }
-
-    /* Regular list */
     .tut-list { display: flex; flex-direction: column; gap: 14px; }
 
-    /* カード共通 */
-    .tut-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,80,80,0.15);
-      border-radius: 16px; overflow: hidden; cursor: pointer;
-      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-    }
-    .tut-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(255,80,80,0.4);
-      box-shadow: 0 8px 32px rgba(200,0,0,0.2);
-    }
+    .tut-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,80,80,0.15); border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; }
+    .tut-card:hover { transform: translateY(-3px); border-color: rgba(255,80,80,0.45); box-shadow: 0 8px 32px rgba(200,0,0,0.2); }
 
-    /* サムネ */
-    .tut-thumb {
-      position: relative; width: 100%; padding-top: 52%;
-      background: rgba(0,0,0,0.4); overflow: hidden;
-    }
-    .tut-thumb img {
-      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.4s;
-    }
+    .tut-thumb { position: relative; width: 100%; padding-top: 52%; background: #0a0000; overflow: hidden; }
+    .tut-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
     .tut-card:hover .tut-thumb img { transform: scale(1.04); }
-    .tut-thumb-placeholder {
-      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, #1a0000, #2a0a0a);
-      font-size: 2.5rem; color: rgba(255,80,80,0.3);
-    }
-    .tut-duration {
-      position: absolute; bottom: 8px; right: 10px;
-      background: rgba(0,0,0,0.75); border-radius: 6px;
-      padding: 2px 8px; font-size: 0.72rem; color: rgba(255,255,255,0.85);
-      display: flex; align-items: center; gap: 4px;
-      backdrop-filter: blur(4px);
-    }
-    .tut-duration svg { width: 11px; height: 11px; stroke: currentColor; fill: none; }
-    .tut-badge-tag {
-      position: absolute; top: 10px; left: 10px;
-      font-size: 0.65rem; font-weight: 700; letter-spacing: 1px;
-      padding: 3px 10px; border-radius: 6px; text-transform: uppercase;
-    }
-    .tut-badge-tag.featured { background: rgba(200,0,0,0.8); color: #fff; }
-    .tut-badge-tag.security { background: rgba(255,150,0,0.8); color: #fff; }
-    .tut-badge-tag.tutorial { background: rgba(0,120,200,0.8); color: #fff; }
-    .tut-badge-tag.tip { background: rgba(0,180,80,0.8); color: #fff; }
+    .tut-thumb-ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg,#1a0000,#2a0808); font-size: 3rem; color: rgba(255,80,80,0.25); }
+    .tut-duration { position: absolute; bottom: 8px; right: 10px; background: rgba(0,0,0,0.8); border-radius: 6px; padding: 2px 8px; font-size: 0.7rem; color: rgba(255,255,255,0.9); display: flex; align-items: center; gap: 4px; }
+    .tut-tag { position: absolute; top: 10px; left: 10px; font-size: 0.62rem; font-weight: 700; letter-spacing: 1px; padding: 3px 9px; border-radius: 6px; text-transform: uppercase; }
+    .tut-tag.featured { background: rgba(180,0,0,0.85); color: #fff; }
+    .tut-tag.security { background: rgba(200,100,0,0.85); color: #fff; }
+    .tut-tag.tutorial { background: rgba(0,100,200,0.85); color: #fff; }
+    .tut-tag.tip { background: rgba(0,160,80,0.85); color: #fff; }
 
-    /* カード本文 */
     .tut-body { padding: 14px 16px 16px; }
     .tut-title { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 5px; line-height: 1.4; }
     .tut-desc { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.5; margin-bottom: 10px; }
     .tut-meta { display: flex; align-items: center; justify-content: space-between; }
-    .tut-views { font-size: 0.72rem; color: rgba(255,255,255,0.3); display: flex; align-items: center; gap: 4px; }
-    .tut-views svg { width: 12px; height: 12px; stroke: currentColor; fill: none; }
-    .tut-stars { display: flex; align-items: center; gap: 3px; font-size: 0.72rem; color: #ffcc44; }
+    .tut-views { font-size: 0.72rem; color: rgba(255,255,255,0.3); }
+    .tut-stars { font-size: 0.72rem; color: #ffcc44; }
 
-    /* 横長カード(list用) */
     .tut-card.horizontal { display: flex; flex-direction: row; }
     .tut-card.horizontal .tut-thumb { width: 180px; min-width: 180px; padding-top: 0; height: 110px; flex-shrink: 0; }
     @media (max-width: 500px) { .tut-card.horizontal { flex-direction: column; } .tut-card.horizontal .tut-thumb { width: 100%; height: auto; padding-top: 52%; min-width: unset; } }
-    .tut-card.horizontal .tut-body { display: flex; flex-direction: column; justify-content: center; }
 
-    /* モーダル */
-    .tut-modal-overlay {
-      display: none; position: fixed; inset: 0; z-index: 500;
-      background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-      align-items: center; justify-content: center; padding: 20px;
-    }
-    .tut-modal-overlay.open { display: flex; }
-    .tut-modal {
-      background: #0f0000; border: 1px solid rgba(255,80,80,0.3);
-      border-radius: 20px; width: 100%; max-width: 700px;
-      overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-      animation: modalIn 0.25s ease;
-    }
-    @keyframes modalIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
+    .tut-empty { text-align: center; color: rgba(255,255,255,0.2); padding: 40px; }
+
+    /* Modal */
+    .tut-overlay { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
+    .tut-overlay.open { display: flex; }
+    .tut-modal { background: #0f0000; border: 1px solid rgba(255,80,80,0.3); border-radius: 20px; width: 100%; max-width: 700px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.7); animation: modalIn 0.25s ease; position: relative; }
+    @keyframes modalIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:none; } }
     .tut-modal-video { position: relative; padding-top: 56.25%; background: #000; }
     .tut-modal-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
     .tut-modal-info { padding: 20px 24px 24px; }
-    .tut-modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-    .tut-modal-desc { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
-    .tut-modal-close {
-      position: absolute; top: 14px; right: 16px;
-      background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.3);
-      border-radius: 50%; width: 34px; height: 34px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 1rem; color: #ff6060; transition: background 0.2s;
-    }
+    .tut-modal-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+    .tut-modal-desc { font-size: 0.84rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+    .tut-modal-close { position: absolute; top: 12px; right: 14px; background: rgba(255,80,80,0.15); border: 1px solid rgba(255,80,80,0.3); border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #ff6060; font-size: 1rem; transition: background 0.2s; }
     .tut-modal-close:hover { background: rgba(255,80,80,0.3); }
-    .tut-modal-wrap { position: relative; }
-
-    .tut-empty { text-align: center; color: rgba(255,255,255,0.2); padding: 40px; font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -418,27 +195,20 @@
 <div class="bg"></div>
 <canvas id="canvas"></canvas>
 
-<!-- Music Button (固定丸ボタン) -->
-<button id="music-btn" onclick="toggleMusic()" aria-label="BGM On/Off" title="BGM On/Off">
-  <!-- 停止中: 音符アイコン -->
+<!-- Music Button -->
+<button id="music-btn" onclick="toggleMusic()" title="BGM On/Off">
   <svg id="icon-off" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M9 18V5l12-2v13"/>
-    <circle cx="6" cy="18" r="3"/>
-    <circle cx="18" cy="16" r="3"/>
+    <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
   </svg>
-  <!-- 再生中: ミュートアイコン -->
-  <svg id="icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+  <svg id="icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
     <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
     <path d="M15 9.5a5 5 0 0 1 0 5M17.5 7a9 9 0 0 1 0 10"/>
   </svg>
 </button>
-
-<!-- Hidden YouTube player (永続) -->
 <div id="yt-player"></div>
 
-<!-- ══════════ HOME PAGE ══════════ -->
+<!-- ══════════ HOME ══════════ -->
 <div class="page active" id="page-home">
-
   <div class="glass hero-card">
     <div class="avatar">👾</div>
     <div class="name">DOY Coder</div>
@@ -448,21 +218,9 @@
   </div>
 
   <div class="cards-row">
-    <div class="glass skill-card">
-      <div class="skill-icon">🎨</div>
-      <div class="skill-title">Design</div>
-      <div class="skill-desc">UI/UX design with a focus on clean, modern aesthetics</div>
-    </div>
-    <div class="glass skill-card">
-      <div class="skill-icon">💻</div>
-      <div class="skill-title">Coding</div>
-      <div class="skill-desc">Building and editing websites from scratch</div>
-    </div>
-    <div class="glass skill-card">
-      <div class="skill-icon">🗄️</div>
-      <div class="skill-title">Data</div>
-      <div class="skill-desc">Processing and managing data across platforms</div>
-    </div>
+    <div class="glass skill-card"><div class="skill-icon">🎨</div><div class="skill-title">Design</div><div class="skill-desc">UI/UX design with a focus on clean, modern aesthetics</div></div>
+    <div class="glass skill-card"><div class="skill-icon">💻</div><div class="skill-title">Coding</div><div class="skill-desc">Building and editing websites from scratch</div></div>
+    <div class="glass skill-card"><div class="skill-icon">🗄️</div><div class="skill-title">Data</div><div class="skill-desc">Processing and managing data across platforms</div></div>
   </div>
 
   <div class="glass info-card">
@@ -475,56 +233,46 @@
     </ul>
   </div>
 
-  <div class="section-label" style="text-align:center; margin-bottom:-10px;">Tools</div>
+  <div class="section-label" style="text-align:center;margin-bottom:-10px;">Pages</div>
   <div class="cards-row">
     <div class="glass skill-card" onclick="navigate('webhook')" style="cursor:pointer;">
       <div class="skill-icon">🔔</div>
       <div class="skill-title">Webhook Manager</div>
-      <div class="skill-desc">Send & manage Discord webhooks with advanced options</div>
+      <div class="skill-desc">Send &amp; manage Discord webhooks with advanced options</div>
+    </div>
+    <div class="glass skill-card" onclick="navigate('tutorials')" style="cursor:pointer;">
+      <div class="skill-icon">📚</div>
+      <div class="skill-title">Tutorials</div>
+      <div class="skill-desc">Guides, tips &amp; how-tos curated by DOY Coder</div>
     </div>
   </div>
 
   <footer>© 2026 DOY Coder — All rights reserved</footer>
 </div>
 
-<!-- ══════════ WEBHOOK PAGE ══════════ -->
-<div class="page" id="page-webhook">
+<!-- ══════════ WEBHOOK ══════════ -->
+<div class="page page-wide" id="page-webhook">
   <div class="wh-page">
-
     <span class="back" onclick="navigate('home')">← DOY Coder</span>
-
     <div>
       <h1 style="font-size:1.8rem;font-weight:700;letter-spacing:1.5px;background:linear-gradient(90deg,#ff6060,#ff2020,#cc0000);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Webhook Manager</h1>
-      <div style="color:rgba(255,255,255,0.35);font-size:0.82rem;margin-top:2px;">Discord Webhook sender & manager</div>
+      <div style="color:rgba(255,255,255,0.35);font-size:0.82rem;margin-top:2px;">Discord Webhook sender &amp; manager</div>
     </div>
-
-    <!-- Saved Webhooks -->
     <div class="card">
       <div class="card-title">📋 Saved Webhooks</div>
       <div class="webhook-list" id="webhook-list"><div class="log-empty">No webhooks saved yet.</div></div>
       <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:180px;">
-          <label>Name</label>
-          <input type="text" id="new-name" placeholder="My Server"/>
-        </div>
-        <div style="flex:3;min-width:220px;">
-          <label>Webhook URL</label>
-          <input type="url" id="new-url" placeholder="https://discord.com/api/webhooks/..."/>
-        </div>
+        <div style="flex:1;min-width:180px;"><label>Name</label><input type="text" id="new-name" placeholder="My Server"/></div>
+        <div style="flex:3;min-width:220px;"><label>Webhook URL</label><input type="url" id="new-url" placeholder="https://discord.com/api/webhooks/..."/></div>
       </div>
-      <div class="btn-row">
-        <button class="btn btn-ghost btn-sm" onclick="saveWebhook()">＋ Save Webhook</button>
-      </div>
+      <div class="btn-row"><button class="btn btn-ghost btn-sm" onclick="saveWebhook()">＋ Save Webhook</button></div>
     </div>
-
-    <!-- Compose -->
     <div class="card">
       <div class="card-title">✉️ Compose Message</div>
       <label>Target Webhook</label>
       <select id="target-webhook"><option value="">— Select a saved webhook —</option></select>
       <label>Message Content</label>
       <textarea id="msg-content" placeholder="Type your message here..."></textarea>
-
       <label style="margin-top:18px;">Options</label>
       <div class="options-grid">
         <label class="opt-item"><input type="checkbox" id="opt-tts"/><span class="opt-label">TTS</span><span class="opt-badge">🔊</span></label>
@@ -534,7 +282,6 @@
         <label class="opt-item"><input type="checkbox" id="opt-mention-everyone"/><span class="opt-label">@everyone</span><span class="opt-badge">📢</span></label>
         <label class="opt-item"><input type="checkbox" id="opt-ephemeral"/><span class="opt-label">Ephemeral</span><span class="opt-badge">👻</span></label>
       </div>
-
       <div class="advanced-toggle" onclick="toggleAdvanced()">
         <span class="toggle-arrow" id="adv-arrow">›</span> Advanced Settings
       </div>
@@ -543,68 +290,45 @@
           <div><label>Override Username</label><input type="text" id="adv-username" placeholder="DOY Bot"/></div>
           <div><label>Override Avatar URL</label><input type="url" id="adv-avatar" placeholder="https://..."/></div>
         </div>
-        <label>Thread Name</label>
-        <input type="text" id="adv-thread" placeholder="my-thread"/>
+        <label>Thread Name</label><input type="text" id="adv-thread" placeholder="my-thread"/>
         <div id="embed-section" style="display:none;margin-top:18px;border-top:1px solid rgba(255,80,80,0.1);padding-top:18px;">
           <div class="card-title" style="margin-bottom:10px;">📦 Embed</div>
           <label>Title</label><input type="text" id="emb-title" placeholder="Embed title"/>
           <label>Description</label><textarea id="emb-desc" placeholder="Embed description..." style="min-height:60px;"></textarea>
-          <div class="embed-row" style="margin-top:0;">
-            <div><label>Author</label><input type="text" id="emb-author" placeholder="Author name"/></div>
-            <div><label>Footer</label><input type="text" id="emb-footer" placeholder="Footer text"/></div>
-          </div>
-          <div class="embed-row">
-            <div><label>Image URL</label><input type="url" id="emb-image" placeholder="https://..."/></div>
-            <div><label>Thumbnail URL</label><input type="url" id="emb-thumb" placeholder="https://..."/></div>
-          </div>
-          <div class="embed-color-row">
-            <label style="margin:0;">Color</label>
-            <input type="color" id="emb-color" value="#cc0000"/>
-            <span style="font-size:0.78rem;color:rgba(255,255,255,0.35);">Embed side color</span>
-          </div>
+          <div class="embed-row" style="margin-top:0;"><div><label>Author</label><input type="text" id="emb-author" placeholder="Author name"/></div><div><label>Footer</label><input type="text" id="emb-footer" placeholder="Footer text"/></div></div>
+          <div class="embed-row"><div><label>Image URL</label><input type="url" id="emb-image" placeholder="https://..."/></div><div><label>Thumbnail URL</label><input type="url" id="emb-thumb" placeholder="https://..."/></div></div>
+          <div class="embed-color-row"><label style="margin:0;">Color</label><input type="color" id="emb-color" value="#cc0000"/><span style="font-size:0.78rem;color:rgba(255,255,255,0.35);">Embed side color</span></div>
         </div>
       </div>
-
       <div id="send-status"></div>
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="sendWebhook()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-          Send Message
-        </button>
+        <button class="btn btn-primary" onclick="sendWebhook()"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>Send Message</button>
         <button class="btn btn-ghost btn-sm" onclick="clearForm()">Clear</button>
       </div>
     </div>
-
-    <!-- Log -->
     <div class="card">
-      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;">
-        <span>📜 Send Log</span>
-        <button class="btn btn-ghost btn-sm" onclick="clearLog()">Clear Log</button>
-      </div>
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;"><span>📜 Send Log</span><button class="btn btn-ghost btn-sm" onclick="clearLog()">Clear Log</button></div>
       <div class="log-list" id="log-list"><div class="log-empty">No messages sent yet.</div></div>
     </div>
-
   </div>
 </div>
 
-
-<!-- ══════════ TUTORIALS PAGE ══════════ -->
-<div class="page" id="page-tutorials">
+<!-- ══════════ TUTORIALS ══════════ -->
+<div class="page page-wide" id="page-tutorials">
   <div class="tut-page">
-
     <span class="back" onclick="navigate('home')">← DOY Coder</span>
 
     <div class="tut-header">
       <h1>📚 Tutorials</h1>
-      <p>Tips, guides &amp; how-tos — curated by DOY Coder</p>
+      <p>Guides, tips &amp; how-tos — curated by DOY Coder</p>
     </div>
 
     <div class="tut-controls">
       <div class="tut-search-wrap">
-        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input type="text" id="tut-search" placeholder="Search tutorials..."/>
       </div>
-      <div class="tut-filters" id="tut-filters">
+      <div class="tut-filters">
         <button class="tut-filter active" data-cat="all">All</button>
         <button class="tut-filter" data-cat="featured">Featured</button>
         <button class="tut-filter" data-cat="tutorial">Tutorial</button>
@@ -613,29 +337,24 @@
       </div>
     </div>
 
-    <!-- Featured -->
     <div id="tut-featured-section">
       <div class="tut-section-label">⭐ Featured</div>
       <div class="tut-featured-grid" id="tut-featured-grid"></div>
     </div>
 
-    <!-- All -->
-    <div id="tut-all-section">
-      <div class="tut-section-label">📋 All Tutorials</div>
+    <div id="tut-list-section">
+      <div class="tut-section-label" id="tut-list-label">📋 All Tutorials</div>
       <div class="tut-list" id="tut-list"></div>
     </div>
 
-    <div class="tut-empty" id="tut-empty" style="display:none;">No tutorials found.</div>
-
+    <div class="tut-empty" id="tut-empty" style="display:none;">No tutorials found 🔍</div>
   </div>
 </div>
 
 <!-- Tutorial Modal -->
-<div class="tut-modal-overlay" id="tut-modal" onclick="closeTutModal(event)">
-  <div class="tut-modal tut-modal-wrap">
-    <div class="tut-modal-video">
-      <iframe id="tut-iframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-    </div>
+<div class="tut-overlay" id="tut-overlay" onclick="closeTutModal(event)">
+  <div class="tut-modal">
+    <div class="tut-modal-video"><iframe id="tut-iframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe></div>
     <div class="tut-modal-info">
       <div class="tut-modal-title" id="tut-modal-title"></div>
       <div class="tut-modal-desc" id="tut-modal-desc"></div>
@@ -656,7 +375,9 @@
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-// ── Router ──
+// ══════════════════════════
+// ROUTER
+// ══════════════════════════
 function navigate(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
@@ -664,14 +385,14 @@ function navigate(page) {
   window.scrollTo(0, 0);
   if (page === 'tutorials') renderTutorials();
 }
-window.addEventListener('popstate', (e) => {
+window.addEventListener('popstate', e => {
   const page = e.state?.page || 'home';
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
+  if (page === 'tutorials') renderTutorials();
 });
-// 初回URL判定
 (function() {
-  const path = location.pathname.replace(/^\//, '').replace(/\/$/, '');
+  const path = location.pathname.replace(/^\/|\/$/g, '');
   if (path === 'webhook' || path === 'tutorials') {
     document.getElementById('page-home').classList.remove('active');
     document.getElementById('page-' + path).classList.add('active');
@@ -679,68 +400,148 @@ window.addEventListener('popstate', (e) => {
   }
 })();
 
-// ── YouTube Player ──
+// ══════════════════════════
+// YOUTUBE BGM
+// ══════════════════════════
 const VIDEO_ID = 'Cesg5bCKfaM';
 let player, isPlaying = false, playerReady = false;
-
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('yt-player', {
     videoId: VIDEO_ID,
-    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: VIDEO_ID, fs: 0, modestbranding: 1, rel: 0 },
+    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: VIDEO_ID, fs: 0, rel: 0 },
     events: {
       onReady: () => { playerReady = true; },
-      onStateChange: (e) => { if (e.data === YT.PlayerState.ENDED) player.playVideo(); }
+      onStateChange: e => { if (e.data === YT.PlayerState.ENDED) player.playVideo(); }
     }
   });
 }
-
 function toggleMusic() {
   if (!playerReady) return;
   const btn = document.getElementById('music-btn');
-  const iconOff = document.getElementById('icon-off');
-  const iconOn = document.getElementById('icon-on');
   if (isPlaying) {
-    player.pauseVideo();
-    isPlaying = false;
+    player.pauseVideo(); isPlaying = false;
     btn.classList.remove('playing');
-    iconOff.style.display = '';
-    iconOn.style.display = 'none';
+    document.getElementById('icon-off').style.display = '';
+    document.getElementById('icon-on').style.display = 'none';
   } else {
-    player.playVideo();
-    isPlaying = true;
+    player.playVideo(); isPlaying = true;
     btn.classList.add('playing');
-    iconOff.style.display = 'none';
-    iconOn.style.display = '';
+    document.getElementById('icon-off').style.display = 'none';
+    document.getElementById('icon-on').style.display = '';
   }
 }
 
-// ── Particles ──
+// ══════════════════════════
+// PARTICLES
+// ══════════════════════════
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let W, H, particles = [];
 function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
 window.addEventListener('resize', resize); resize();
-const palette = ['rgba(255,40,40,','rgba(200,0,0,','rgba(255,100,100,','rgba(180,30,30,','rgba(255,180,180,'];
-for (let i = 0; i < 80; i++) {
-  particles.push({ x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
-    r: Math.random()*2.5+0.5, dx: (Math.random()-.5)*.4, dy: (Math.random()-.5)*.4,
-    color: palette[Math.floor(Math.random()*palette.length)], alpha: Math.random()*.5+.2 });
-}
+const pal = ['rgba(255,40,40,','rgba(200,0,0,','rgba(255,100,100,','rgba(180,30,30,'];
+for (let i = 0; i < 80; i++) particles.push({ x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight, r: Math.random()*2.5+0.5, dx: (Math.random()-.5)*.4, dy: (Math.random()-.5)*.4, color: pal[Math.floor(Math.random()*pal.length)], alpha: Math.random()*.5+.2 });
 function draw() {
   ctx.clearRect(0,0,W,H);
   for (const p of particles) {
-    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle = p.color+p.alpha+')'; ctx.fill();
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=p.color+p.alpha+')'; ctx.fill();
     p.x+=p.dx; p.y+=p.dy;
-    if(p.x<0||p.x>W) p.dx*=-1; if(p.y<0||p.y>H) p.dy*=-1;
+    if(p.x<0||p.x>W)p.dx*=-1; if(p.y<0||p.y>H)p.dy*=-1;
   }
   requestAnimationFrame(draw);
 }
 draw();
 
-// ── Webhook Logic ──
+// ══════════════════════════
+// TUTORIALS
+// ══════════════════════════
+const TUTORIALS = [
+  { id:1, title:'Getting Started with HTML & CSS', desc:'A complete beginner guide to building your first webpage from scratch.', category:'featured', duration:'12:30', views:'24.1K', rating:4.9, videoId:'qz0aGYrrlhU', thumb:'https://img.youtube.com/vi/qz0aGYrrlhU/mqdefault.jpg' },
+  { id:2, title:'Glassmorphism UI Design', desc:'How to create stunning glassmorphism cards with CSS backdrop-filter.', category:'featured', duration:'08:15', views:'18.7K', rating:4.8, videoId:'hEx5DNLWmTo', thumb:'https://img.youtube.com/vi/hEx5DNLWmTo/mqdefault.jpg' },
+  { id:3, title:'Discord Webhook Deep Dive', desc:'Everything you need to know about Discord Webhooks — embeds, messages and more.', category:'tutorial', duration:'16:42', views:'28.3K', rating:4.8, videoId:'fKksxz2Gdnc', thumb:'https://img.youtube.com/vi/fKksxz2Gdnc/mqdefault.jpg' },
+  { id:4, title:'JavaScript for Beginners', desc:'Learn the core concepts of JavaScript with practical examples.', category:'tutorial', duration:'20:05', views:'31.0K', rating:4.7, videoId:'W6NZfCO5SIk', thumb:'https://img.youtube.com/vi/W6NZfCO5SIk/mqdefault.jpg' },
+  { id:5, title:'Stay Safe Online', desc:'Essential security tips every developer and web user should know.', category:'security', duration:'12:18', views:'31.7K', rating:4.9, videoId:'aEmassVZV88', thumb:'' },
+  { id:6, title:'CSS Animation Tips', desc:'Quick tips to level up your CSS animations and transitions.', category:'tip', duration:'05:44', views:'9.2K', rating:4.6, videoId:'zHUpx90NerM', thumb:'https://img.youtube.com/vi/zHUpx90NerM/mqdefault.jpg' },
+];
+
+let tutCat = 'all', tutQ = '';
+
+function stars(r) {
+  return '<span class="tut-stars">' + '★'.repeat(Math.floor(r)) + (r%1>=0.5?'½':'') + ' <span style="color:rgba(255,255,255,0.35);">(' + r + ')</span></span>';
+}
+
+function tutCard(t, horizontal) {
+  const thumb = t.thumb
+    ? '<img src="'+t.thumb+'" alt="'+t.title+'" loading="lazy" onerror="this.parentNode.innerHTML=\'<div class=tut-thumb-ph>▶</div>\'">'
+    : '<div class="tut-thumb-ph">▶</div>';
+  return '<div class="tut-card'+(horizontal?' horizontal':'')+'" onclick="openModal('+t.id+')">'
+    +'<div class="tut-thumb">'+thumb
+    +'<span class="tut-tag '+t.category+'">'+t.category.toUpperCase()+'</span>'
+    +'<span class="tut-duration">⏱ '+t.duration+'</span></div>'
+    +'<div class="tut-body"><div class="tut-title">'+t.title+'</div><div class="tut-desc">'+t.desc+'</div>'
+    +'<div class="tut-meta"><span class="tut-views">👁 '+t.views+' views</span>'+stars(t.rating)+'</div>'
+    +'</div></div>';
+}
+
+function renderTutorials() {
+  const q = tutQ.toLowerCase();
+  const filtered = TUTORIALS.filter(t =>
+    (tutCat === 'all' || t.category === tutCat) &&
+    (!q || t.title.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q))
+  );
+  const featured = filtered.filter(t => t.category === 'featured');
+  const others   = filtered.filter(t => t.category !== 'featured');
+
+  const showFeatured = featured.length > 0 && (tutCat === 'all' || tutCat === 'featured');
+  const listItems    = tutCat === 'all' ? others : (tutCat === 'featured' ? featured : filtered);
+  const showList     = listItems.length > 0;
+
+  document.getElementById('tut-featured-section').style.display = showFeatured ? '' : 'none';
+  if (showFeatured) document.getElementById('tut-featured-grid').innerHTML = featured.map(t => tutCard(t, false)).join('');
+
+  document.getElementById('tut-list-section').style.display = showList ? '' : 'none';
+  if (showList) {
+    const labels = { all:'📋 All Tutorials', featured:'⭐ Featured', tutorial:'📖 Tutorials', security:'🔒 Security', tip:'💡 Tips' };
+    document.getElementById('tut-list-label').textContent = labels[tutCat] || '📋 Tutorials';
+    document.getElementById('tut-list').innerHTML = listItems.map(t => tutCard(t, true)).join('');
+  }
+
+  document.getElementById('tut-empty').style.display = (!showFeatured && !showList) ? 'block' : 'none';
+}
+
+document.querySelectorAll('.tut-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tut-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    tutCat = btn.dataset.cat;
+    renderTutorials();
+  });
+});
+document.getElementById('tut-search').addEventListener('input', function() {
+  tutQ = this.value; renderTutorials();
+});
+
+function openModal(id) {
+  const t = TUTORIALS.find(x => x.id === id); if (!t) return;
+  document.getElementById('tut-iframe').src = 'https://www.youtube.com/embed/'+t.videoId+'?autoplay=1&rel=0';
+  document.getElementById('tut-modal-title').textContent = t.title;
+  document.getElementById('tut-modal-desc').textContent = t.desc;
+  document.getElementById('tut-overlay').classList.add('open');
+}
+function closeTutModal(e) {
+  if (e && !e.target.classList.contains('tut-overlay') && !e.target.classList.contains('tut-modal-close')) return;
+  document.getElementById('tut-overlay').classList.remove('open');
+  document.getElementById('tut-iframe').src = '';
+}
+
+// 初期表示（tutorialsページが直接開かれた場合）
+if (document.getElementById('page-tutorials').classList.contains('active')) renderTutorials();
+
+// ══════════════════════════
+// WEBHOOK
+// ══════════════════════════
 let webhooks = JSON.parse(localStorage.getItem('doy_webhooks') || '[]');
-let logs = JSON.parse(localStorage.getItem('doy_logs') || '[]');
+let logs     = JSON.parse(localStorage.getItem('dut_logs') || '[]');
 
 function toggleAdvanced() {
   document.getElementById('adv-body').classList.toggle('open');
@@ -752,322 +553,109 @@ document.getElementById('opt-embed').addEventListener('change', function() {
 
 function saveWebhook() {
   const name = document.getElementById('new-name').value.trim();
-  const url = document.getElementById('new-url').value.trim();
+  const url  = document.getElementById('new-url').value.trim();
   if (!name || !url) { alert('Name and URL are required.'); return; }
   if (!url.startsWith('https://discord.com/api/webhooks/')) { alert('Please enter a valid Discord Webhook URL.'); return; }
   webhooks.push({ id: Date.now(), name, url });
   localStorage.setItem('doy_webhooks', JSON.stringify(webhooks));
   document.getElementById('new-name').value = '';
-  document.getElementById('new-url').value = '';
+  document.getElementById('new-url').value  = '';
   renderWebhooks();
 }
-
 function deleteWebhook(id) {
   webhooks = webhooks.filter(w => w.id !== id);
   localStorage.setItem('doy_webhooks', JSON.stringify(webhooks));
   renderWebhooks();
 }
-
 function selectWebhook(id) {
   document.querySelectorAll('.webhook-item').forEach(el => el.classList.remove('active'));
-  document.querySelector(`.webhook-item[data-id="${id}"]`)?.classList.add('active');
+  document.querySelector('.webhook-item[data-id="'+id+'"]')?.classList.add('active');
   document.getElementById('target-webhook').value = id;
 }
-
 function renderWebhooks() {
   const list = document.getElementById('webhook-list');
-  const sel = document.getElementById('target-webhook');
+  const sel  = document.getElementById('target-webhook');
   sel.innerHTML = '<option value="">— Select a saved webhook —</option>';
-  if (webhooks.length === 0) { list.innerHTML = '<div class="log-empty">No webhooks saved yet.</div>'; return; }
-  list.innerHTML = webhooks.map(w => `
-    <div class="webhook-item" data-id="${w.id}" onclick="selectWebhook(${w.id})">
-      <div class="webhook-dot"></div>
-      <div class="webhook-name">${w.name}</div>
-      <div class="webhook-url-preview">${w.url}</div>
-      <button class="btn-del" onclick="event.stopPropagation();deleteWebhook(${w.id})">✕</button>
-    </div>`).join('');
+  if (!webhooks.length) { list.innerHTML = '<div class="log-empty">No webhooks saved yet.</div>'; return; }
+  list.innerHTML = webhooks.map(w => '<div class="webhook-item" data-id="'+w.id+'" onclick="selectWebhook('+w.id+')">'
+    +'<div class="webhook-dot"></div><div class="webhook-name">'+w.name+'</div>'
+    +'<div class="webhook-url-preview">'+w.url+'</div>'
+    +'<button class="btn-del" onclick="event.stopPropagation();deleteWebhook('+w.id+')">✕</button></div>').join('');
   webhooks.forEach(w => { const o = document.createElement('option'); o.value = w.id; o.textContent = w.name; sel.appendChild(o); });
 }
-
 document.getElementById('target-webhook').addEventListener('change', function() {
   const id = parseInt(this.value); if (id) selectWebhook(id);
 });
 
 async function sendWebhook() {
   const selId = parseInt(document.getElementById('target-webhook').value);
-  const hook = webhooks.find(w => w.id === selId);
-  if (!hook) { showStatus('error', 'Please select a webhook first.'); return; }
+  const hook  = webhooks.find(w => w.id === selId);
+  if (!hook) { showStatus('error','Please select a webhook first.'); return; }
   const content = document.getElementById('msg-content').value.trim();
-  const tts = document.getElementById('opt-tts').checked;
-  const silent = document.getElementById('opt-silent').checked;
-  const suppressEmbeds = document.getElementById('opt-suppress').checked;
-  const mentionEveryone = document.getElementById('opt-mention-everyone').checked;
-  const username = document.getElementById('adv-username').value.trim();
-  const avatarUrl = document.getElementById('adv-avatar').value.trim();
   const useEmbed = document.getElementById('opt-embed').checked;
-  if (!content && !useEmbed) { showStatus('error', 'Message content is empty.'); return; }
+  if (!content && !useEmbed) { showStatus('error','Message content is empty.'); return; }
   const payload = {};
-  if (content) payload.content = mentionEveryone ? '@everyone ' + content : content;
-  if (tts) payload.tts = true;
-  if (username) payload.username = username;
-  if (avatarUrl) payload.avatar_url = avatarUrl;
+  const everyone = document.getElementById('opt-mention-everyone').checked;
+  if (content) payload.content = everyone ? '@everyone ' + content : content;
+  if (document.getElementById('opt-tts').checked) payload.tts = true;
+  const u = document.getElementById('adv-username').value.trim();
+  const av = document.getElementById('adv-avatar').value.trim();
+  if (u) payload.username = u;
+  if (av) payload.avatar_url = av;
   let flags = 0;
-  if (suppressEmbeds) flags |= 1 << 2;
-  if (silent) flags |= 1 << 12;
+  if (document.getElementById('opt-suppress').checked) flags |= 1<<2;
+  if (document.getElementById('opt-silent').checked) flags |= 1<<12;
   if (flags) payload.flags = flags;
   if (useEmbed) {
     const embed = {};
-    const title = document.getElementById('emb-title').value.trim();
-    const desc = document.getElementById('emb-desc').value.trim();
-    const author = document.getElementById('emb-author').value.trim();
-    const footer = document.getElementById('emb-footer').value.trim();
-    const image = document.getElementById('emb-image').value.trim();
-    const thumb = document.getElementById('emb-thumb').value.trim();
-    const color = document.getElementById('emb-color').value;
-    if (title) embed.title = title;
-    if (desc) embed.description = desc;
-    if (author) embed.author = { name: author };
-    if (footer) embed.footer = { text: footer };
-    if (image) embed.image = { url: image };
-    if (thumb) embed.thumbnail = { url: thumb };
-    embed.color = parseInt(color.replace('#',''), 16);
+    const title=document.getElementById('emb-title').value.trim(), desc=document.getElementById('emb-desc').value.trim();
+    const author=document.getElementById('emb-author').value.trim(), footer=document.getElementById('emb-footer').value.trim();
+    const img=document.getElementById('emb-image').value.trim(), thumb=document.getElementById('emb-thumb').value.trim();
+    if (title) embed.title=title; if (desc) embed.description=desc;
+    if (author) embed.author={name:author}; if (footer) embed.footer={text:footer};
+    if (img) embed.image={url:img}; if (thumb) embed.thumbnail={url:thumb};
+    embed.color = parseInt(document.getElementById('emb-color').value.replace('#',''),16);
     payload.embeds = [embed];
   }
-  showStatus('loading', 'Sending...');
+  showStatus('loading','Sending...');
   try {
-    const res = await fetch(hook.url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    const res = await fetch(hook.url, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
     const preview = content || (useEmbed ? '[Embed]' : '');
-    if (res.ok || res.status === 204) { showStatus('success', `✓ Sent to "${hook.name}"`); addLog('ok', hook.name, preview); }
-    else { const err = await res.json().catch(()=>({})); showStatus('error', `✗ Error ${res.status}: ${err.message||'Unknown'}`); addLog('fail', hook.name, preview); }
-  } catch(e) { showStatus('error', `✗ Network error: ${e.message}`); addLog('fail', hook.name, content||'[Embed]'); }
+    if (res.ok || res.status===204) { showStatus('success','✓ Sent to "'+hook.name+'"'); addLog('ok',hook.name,preview); }
+    else { const err = await res.json().catch(()=>({})); showStatus('error','✗ Error '+res.status+': '+(err.message||'Unknown')); addLog('fail',hook.name,preview); }
+  } catch(e) { showStatus('error','✗ Network error: '+e.message); addLog('fail',hook.name,content||'[Embed]'); }
 }
-
 function showStatus(type, msg) {
   const el = document.getElementById('send-status');
   el.className = type; el.textContent = msg;
-  if (type === 'success') setTimeout(() => el.style.display = 'none', 4000);
+  if (type === 'success') setTimeout(() => el.style.display='none', 4000);
 }
-
 function clearForm() {
   document.getElementById('msg-content').value = '';
-  document.querySelectorAll('.options-grid input[type="checkbox"]').forEach(c => c.checked = false);
-  document.getElementById('embed-section').style.display = 'none';
-  document.getElementById('adv-username').value = '';
-  document.getElementById('adv-avatar').value = '';
-  const el = document.getElementById('send-status'); el.className = ''; el.style.display = 'none';
+  document.querySelectorAll('.options-grid input[type="checkbox"]').forEach(c => c.checked=false);
+  document.getElementById('embed-section').style.display='none';
+  document.getElementById('adv-username').value='';
+  document.getElementById('adv-avatar').value='';
+  const el=document.getElementById('send-status'); el.className=''; el.style.display='none';
 }
-
-function addLog(status, webhookName, preview) {
+function addLog(status, name, preview) {
   const now = new Date();
-  logs.unshift({ status, webhookName, preview, time: now.toLocaleTimeString('ja-JP'), date: now.toLocaleDateString('ja-JP') });
+  logs.unshift({ status, name, preview, time:now.toLocaleTimeString('ja-JP'), date:now.toLocaleDateString('ja-JP') });
   if (logs.length > 100) logs.pop();
-  localStorage.setItem('doy_logs', JSON.stringify(logs));
+  localStorage.setItem('dut_logs', JSON.stringify(logs));
   renderLogs();
 }
-
-function clearLog() { logs = []; localStorage.setItem('doy_logs', JSON.stringify(logs)); renderLogs(); }
-
+function clearLog() { logs=[]; localStorage.setItem('dut_logs', JSON.stringify(logs)); renderLogs(); }
 function renderLogs() {
   const list = document.getElementById('log-list');
-  if (logs.length === 0) { list.innerHTML = '<div class="log-empty">No messages sent yet.</div>'; return; }
-  list.innerHTML = logs.map(l => `
-    <div class="log-item ${l.status}">
-      <div class="log-top">
-        <span class="log-badge ${l.status}">${l.status==='ok'?'✓ SUCCESS':'✗ FAILED'}</span>
-        <span class="log-webhook">${l.webhookName}</span>
-        <span class="log-time">${l.date} ${l.time}</span>
-      </div>
-      <div class="log-preview">${l.preview||'—'}</div>
-    </div>`).join('');
+  if (!logs.length) { list.innerHTML='<div class="log-empty">No messages sent yet.</div>'; return; }
+  list.innerHTML = logs.map(l => '<div class="log-item '+l.status+'">'
+    +'<div class="log-top"><span class="log-badge '+l.status+'">'+(l.status==='ok'?'✓ SUCCESS':'✗ FAILED')+'</span>'
+    +'<span class="log-webhook">'+l.name+'</span><span class="log-time">'+l.date+' '+l.time+'</span></div>'
+    +'<div class="log-preview">'+(l.preview||'—')+'</div></div>').join('');
 }
-
-
-// ── Tutorials Data ──
-const TUTORIALS = [
-  {
-    id: 1,
-    title: 'Getting Started with HTML & CSS',
-    desc: 'A complete beginner guide to building your first webpage from scratch.',
-    category: 'featured',
-    duration: '12:30',
-    views: '24.1K',
-    rating: 4.9,
-    videoId: 'qz0aGYrrlhU',
-    thumb: 'https://img.youtube.com/vi/qz0aGYrrlhU/mqdefault.jpg',
-  },
-  {
-    id: 2,
-    title: 'Glassmorphism UI Design',
-    desc: 'How to create stunning glassmorphism cards with CSS backdrop-filter.',
-    category: 'featured',
-    duration: '08:15',
-    views: '18.7K',
-    rating: 4.8,
-    videoId: 'hEx5DNLWmTo',
-    thumb: 'https://img.youtube.com/vi/hEx5DNLWmTo/mqdefault.jpg',
-  },
-  {
-    id: 3,
-    title: 'Discord Webhook Deep Dive',
-    desc: 'Everything you need to know about Discord Webhooks — sending messages, embeds and more.',
-    category: 'tutorial',
-    duration: '16:42',
-    views: '28.3K',
-    rating: 4.8,
-    videoId: 'fKksxz2Gdnc',
-    thumb: 'https://img.youtube.com/vi/fKksxz2Gdnc/mqdefault.jpg',
-  },
-  {
-    id: 4,
-    title: 'JavaScript for Beginners',
-    desc: 'Learn the core concepts of JavaScript with practical examples.',
-    category: 'tutorial',
-    duration: '20:05',
-    views: '31.0K',
-    rating: 4.7,
-    videoId: 'W6NZfCO5SIk',
-    thumb: 'https://img.youtube.com/vi/W6NZfCO5SIk/mqdefault.jpg',
-  },
-  {
-    id: 5,
-    title: 'Stay Safe Online',
-    desc: 'Essential security tips every developer and web user should know.',
-    category: 'security',
-    duration: '12:18',
-    views: '31.7K',
-    rating: 4.9,
-    videoId: 'aEmássVZV88',
-    thumb: '',
-  },
-  {
-    id: 6,
-    title: 'CSS Animations Tips',
-    desc: 'Quick tips to level up your CSS animations and transitions.',
-    category: 'tip',
-    duration: '05:44',
-    views: '9.2K',
-    rating: 4.6,
-    videoId: 'zHUpx90NerM',
-    thumb: 'https://img.youtube.com/vi/zHUpx90NerM/mqdefault.jpg',
-  },
-];
-
-let tutCategory = 'all';
-let tutSearch = '';
-
-function starsHTML(r) {
-  const full = Math.floor(r);
-  const half = r % 1 >= 0.5;
-  let s = '';
-  for (let i = 0; i < full; i++) s += '★';
-  if (half) s += '½';
-  return `<span class="tut-stars">${s} <span style="color:rgba(255,255,255,0.4);">(${r})</span></span>`;
-}
-
-function badgeTag(cat) {
-  const map = { featured:'FEATURED', tutorial:'TUTORIAL', security:'SECURITY', tip:'TIP' };
-  return `<span class="tut-badge-tag ${cat}">${map[cat]||cat.toUpperCase()}</span>`;
-}
-
-function thumbHTML(t, title) {
-  if (t) return `<img src="${t}" alt="${title}" loading="lazy" onerror="this.style.display='none'">`;
-  return `<div class="tut-thumb-placeholder">▶</div>`;
-}
-
-function tutCardHTML(t, horizontal=false) {
-  return `
-    <div class="tut-card${horizontal?' horizontal':''}" onclick="openTutModal(${t.id})">
-      <div class="tut-thumb">${thumbHTML(t.thumb, t.title)}${badgeTag(t.category)}<div class="tut-duration"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${t.duration}</div></div>
-      <div class="tut-body">
-        <div class="tut-title">${t.title}</div>
-        <div class="tut-desc">${t.desc}</div>
-        <div class="tut-meta">
-          <span class="tut-views"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>${t.views} views</span>
-          ${starsHTML(t.rating)}
-        </div>
-      </div>
-    </div>`;
-}
-
-function renderTutorials() {
-  const q = tutSearch.toLowerCase();
-  const filtered = TUTORIALS.filter(t => {
-    const matchCat = tutCategory === 'all' || t.category === tutCategory;
-    const matchQ = !q || t.title.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q);
-    return matchCat && matchQ;
-  });
-
-  const featured = filtered.filter(t => t.category === 'featured');
-  const others = filtered.filter(t => t.category !== 'featured');
-
-  const featuredSec = document.getElementById('tut-featured-section');
-  const allSec = document.getElementById('tut-all-section');
-  const empty = document.getElementById('tut-empty');
-
-  // Featured
-  const fg = document.getElementById('tut-featured-grid');
-  if (featured.length > 0 && tutCategory !== 'tutorial' && tutCategory !== 'security' && tutCategory !== 'tip') {
-    featuredSec.style.display = '';
-    fg.innerHTML = featured.map(t => tutCardHTML(t, false)).join('');
-  } else {
-    featuredSec.style.display = 'none';
-  }
-
-  // Others
-  const listEl = document.getElementById('tut-list');
-  const showOthers = tutCategory === 'all' ? others : filtered.filter(t => t.category !== 'featured' || tutCategory === 'featured');
-  const listItems = tutCategory === 'featured' ? featured : (tutCategory === 'all' ? others : filtered);
-
-  if (listItems.length > 0) {
-    allSec.style.display = '';
-    document.querySelector('#tut-all-section .tut-section-label').textContent =
-      tutCategory === 'all' ? '📋 All Tutorials' :
-      tutCategory === 'featured' ? '⭐ Featured' :
-      tutCategory === 'security' ? '🔒 Security' :
-      tutCategory === 'tip' ? '💡 Tips' : '📖 Tutorials';
-    listEl.innerHTML = listItems.map(t => tutCardHTML(t, true)).join('');
-  } else {
-    allSec.style.display = 'none';
-  }
-
-  empty.style.display = (featured.length === 0 && listItems.length === 0) ? 'block' : 'none';
-}
-
-// フィルター
-document.querySelectorAll('.tut-filter').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tut-filter').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    tutCategory = btn.dataset.cat;
-    renderTutorials();
-  });
-});
-
-// 検索
-document.getElementById('tut-search').addEventListener('input', function() {
-  tutSearch = this.value;
-  renderTutorials();
-});
-
-// モーダル
-function openTutModal(id) {
-  const t = TUTORIALS.find(x => x.id === id);
-  if (!t) return;
-  document.getElementById('tut-iframe').src = `https://www.youtube.com/embed/${t.videoId}?autoplay=1&rel=0`;
-  document.getElementById('tut-modal-title').textContent = t.title;
-  document.getElementById('tut-modal-desc').textContent = t.desc;
-  document.getElementById('tut-modal').classList.add('open');
-}
-
-function closeTutModal(e) {
-  if (e && e.target !== document.getElementById('tut-modal') && !e.target.closest('.tut-modal-close')) return;
-  document.getElementById('tut-modal').classList.remove('open');
-  document.getElementById('tut-iframe').src = '';
-}
-
 renderWebhooks();
 renderLogs();
 </script>
 </body>
 </html>
-
