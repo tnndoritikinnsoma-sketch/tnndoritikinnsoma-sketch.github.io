@@ -265,63 +265,146 @@
 </div>
 
 <!-- ══ WEBHOOK ══ -->
-<div class="page page-wide" id="page-webhook">
-  <div class="wh-page">
-    <span class="back" onclick="navigate('home')">← DOY Coder</span>
-    <div>
-      <h1 style="font-size:1.8rem;font-weight:700;letter-spacing:1.5px;background:linear-gradient(90deg,#ff4040,#cc0000,#660000,#111);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Webhook Manager</h1>
-      <div style="color:rgba(255,255,255,0.35);font-size:0.82rem;margin-top:2px;">Discord Webhook sender &amp; manager</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Saved Webhooks</div>
-      <div class="webhook-list" id="webhook-list"><div class="log-empty">No webhooks saved yet.</div></div>
-      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:180px;"><label>Name</label><input type="text" id="new-name" placeholder="My Server"/></div>
-        <div style="flex:3;min-width:220px;"><label>Webhook URL</label><input type="url" id="new-url" placeholder="https://discord.com/api/webhooks/..."/></div>
+<div class="page" id="page-webhook" style="padding:70px 0 40px;align-items:stretch;max-width:100%;width:100%;">
+  <div style="max-width:1400px;margin:0 auto;width:100%;padding:0 20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <span class="back" onclick="navigate('home')" style="margin-bottom:8px;display:inline-flex;">← DOY Coder</span>
+        <h1 style="font-size:1.8rem;font-weight:700;letter-spacing:1.5px;background:linear-gradient(90deg,#ff4040,#cc0000,#660000,#111);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;">Webhook Manager</h1>
+        <div style="color:rgba(255,255,255,0.35);font-size:0.82rem;margin-top:2px;">Discord Webhook sender with live preview</div>
       </div>
-      <div class="btn-row"><button class="btn btn-ghost btn-sm" onclick="saveWebhook()">+ Save Webhook</button></div>
     </div>
-    <div class="card">
-      <div class="card-title">Compose Message</div>
-      <label>Target Webhook</label>
-      <select id="target-webhook"><option value="">— Select a saved webhook —</option></select>
-      <label>Message Content</label>
-      <textarea id="msg-content" placeholder="Type your message here..."></textarea>
-      <label style="margin-top:18px;">Options</label>
-      <div class="options-grid">
-        <label class="opt-item"><input type="checkbox" id="opt-tts"/><span class="opt-label">TTS</span><span class="opt-badge">🔊</span></label>
-        <label class="opt-item"><input type="checkbox" id="opt-silent"/><span class="opt-label">Silent</span><span class="opt-badge">🔕</span></label>
-        <label class="opt-item"><input type="checkbox" id="opt-embed"/><span class="opt-label">Embed</span><span class="opt-badge">📦</span></label>
-        <label class="opt-item"><input type="checkbox" id="opt-suppress"/><span class="opt-label">Suppress Embeds</span><span class="opt-badge">🚫</span></label>
-        <label class="opt-item"><input type="checkbox" id="opt-mention-everyone"/><span class="opt-label">@everyone</span><span class="opt-badge">📢</span></label>
-        <label class="opt-item"><input type="checkbox" id="opt-ephemeral"/><span class="opt-label">Ephemeral</span><span class="opt-badge">👻</span></label>
-      </div>
-      <div class="advanced-toggle" onclick="toggleAdvanced()"><span class="toggle-arrow" id="adv-arrow">›</span> Advanced Settings</div>
-      <div class="advanced-body" id="adv-body">
-        <div class="avatar-row">
-          <div><label>Override Username</label><input type="text" id="adv-username" placeholder="DOY Bot"/></div>
-          <div><label>Override Avatar URL</label><input type="url" id="adv-avatar" placeholder="https://..."/></div>
+
+    <!-- 2カラムレイアウト -->
+    <div style="display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:start;" id="wh-grid">
+
+      <!-- 左：エディタ -->
+      <div style="display:flex;flex-direction:column;gap:16px;">
+
+        <!-- Saved Webhooks -->
+        <div class="card">
+          <div class="card-title">Saved Webhooks</div>
+          <div class="webhook-list" id="webhook-list"><div class="log-empty">No webhooks saved yet.</div></div>
+          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:140px;"><label>Name</label><input type="text" id="new-name" placeholder="My Server"/></div>
+            <div style="flex:3;min-width:200px;"><label>Webhook URL</label><input type="url" id="new-url" placeholder="https://discord.com/api/webhooks/..."/></div>
+          </div>
+          <div class="btn-row"><button class="btn btn-ghost btn-sm" onclick="saveWebhook()">+ Save Webhook</button></div>
         </div>
-        <label>Thread Name</label><input type="text" id="adv-thread" placeholder="my-thread"/>
-        <div id="embed-section" style="display:none;margin-top:18px;border-top:1px solid rgba(255,80,80,0.1);padding-top:18px;">
-          <div class="card-title" style="margin-bottom:10px;">Embed</div>
-          <label>Title</label><input type="text" id="emb-title" placeholder="Embed title"/>
-          <label>Description</label><textarea id="emb-desc" placeholder="Embed description..." style="min-height:60px;"></textarea>
-          <div class="embed-row" style="margin-top:0;"><div><label>Author</label><input type="text" id="emb-author" placeholder="Author name"/></div><div><label>Footer</label><input type="text" id="emb-footer" placeholder="Footer text"/></div></div>
-          <div class="embed-row"><div><label>Image URL</label><input type="url" id="emb-image" placeholder="https://..."/></div><div><label>Thumbnail URL</label><input type="url" id="emb-thumb" placeholder="https://..."/></div></div>
-          <div class="embed-color-row"><label style="margin:0;">Color</label><input type="color" id="emb-color" value="#cc0000"/><span style="font-size:0.78rem;color:rgba(255,255,255,0.35);">Embed side color</span></div>
+
+        <!-- Profile (Username / Avatar) -->
+        <div class="card">
+          <div class="card-title">Profile Override</div>
+          <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
+            <div style="flex:1;min-width:140px;">
+              <label>Username</label>
+              <input type="text" id="adv-username" placeholder="DOY Bot" oninput="updatePreview()"/>
+            </div>
+            <div style="flex:2;min-width:200px;">
+              <label>Avatar URL</label>
+              <input type="url" id="adv-avatar" placeholder="https://..." oninput="updatePreview()"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message Content -->
+        <div class="card">
+          <div class="card-title">Message Content</div>
+          <label>Target Webhook</label>
+          <select id="target-webhook"><option value="">— Select a saved webhook —</option></select>
+          <label>Content <span id="content-count" style="color:rgba(255,255,255,0.3);font-size:0.72rem;margin-left:6px;">0 / 2000</span></label>
+          <textarea id="msg-content" placeholder="Type your message here..." maxlength="2000" oninput="updatePreview();updateCount()"></textarea>
+          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+            <label class="opt-item" style="margin:0;flex:none;"><input type="checkbox" id="opt-tts" onchange="updatePreview()"/><span class="opt-label">TTS</span></label>
+            <label class="opt-item" style="margin:0;flex:none;"><input type="checkbox" id="opt-silent"/><span class="opt-label">Silent</span></label>
+            <label class="opt-item" style="margin:0;flex:none;"><input type="checkbox" id="opt-suppress"/><span class="opt-label">Suppress Embeds</span></label>
+            <label class="opt-item" style="margin:0;flex:none;"><input type="checkbox" id="opt-mention-everyone"/><span class="opt-label">@everyone</span></label>
+          </div>
+        </div>
+
+        <!-- Embed Builder -->
+        <div class="card" id="embed-builder">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <div class="card-title" style="margin-bottom:0;">Embed</div>
+            <label style="margin:0;display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="opt-embed" onchange="toggleEmbedFields();updatePreview()" style="accent-color:#ff3030;width:15px;height:15px;"/>
+              <span style="font-size:0.78rem;color:rgba(255,255,255,0.5);">Enable Embed</span>
+            </label>
+          </div>
+          <div id="embed-fields" style="display:none;">
+            <!-- Author -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div><label>Author Name</label><input type="text" id="emb-author" placeholder="Author name" oninput="updatePreview()"/></div>
+              <div><label>Author Icon URL</label><input type="url" id="emb-author-icon" placeholder="https://..." oninput="updatePreview()"/></div>
+            </div>
+            <!-- Title & URL -->
+            <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-top:10px;">
+              <div><label>Title</label><input type="text" id="emb-title" placeholder="Embed title" oninput="updatePreview()"/></div>
+              <div><label>Title URL</label><input type="url" id="emb-url" placeholder="https://..." oninput="updatePreview()"/></div>
+            </div>
+            <!-- Description -->
+            <label>Description</label>
+            <textarea id="emb-desc" placeholder="Embed description... (supports **bold**, *italic*, `code`)" style="min-height:70px;" oninput="updatePreview()"></textarea>
+            <!-- Color -->
+            <div style="display:flex;align-items:center;gap:12px;margin-top:12px;">
+              <label style="margin:0;">Color</label>
+              <input type="color" id="emb-color" value="#cc0000" oninput="updatePreview()"/>
+              <span style="font-size:0.78rem;color:rgba(255,255,255,0.3);">Side accent color</span>
+            </div>
+            <!-- Fields -->
+            <div style="margin-top:14px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                <label style="margin:0;">Fields</label>
+                <button class="btn btn-ghost btn-sm" onclick="addEmbedField()" style="padding:4px 12px;font-size:0.75rem;">+ Add Field</button>
+              </div>
+              <div id="embed-fields-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+            </div>
+            <!-- Image & Thumbnail -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+              <div><label>Image URL</label><input type="url" id="emb-image" placeholder="https://..." oninput="updatePreview()"/></div>
+              <div><label>Thumbnail URL</label><input type="url" id="emb-thumb" placeholder="https://..." oninput="updatePreview()"/></div>
+            </div>
+            <!-- Footer -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+              <div><label>Footer Text</label><input type="text" id="emb-footer" placeholder="Footer text" oninput="updatePreview()"/></div>
+              <div><label>Footer Icon URL</label><input type="url" id="emb-footer-icon" placeholder="https://..." oninput="updatePreview()"/></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Send -->
+        <div class="card">
+          <div id="send-status"></div>
+          <div class="btn-row" style="margin-top:0;">
+            <button class="btn btn-primary" onclick="sendWebhook()">Send Message</button>
+            <button class="btn btn-ghost btn-sm" onclick="clearForm()">Clear</button>
+          </div>
+        </div>
+
+        <!-- Log -->
+        <div class="card">
+          <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;"><span>Send Log</span><button class="btn btn-ghost btn-sm" onclick="clearLog()">Clear</button></div>
+          <div class="log-list" id="log-list"><div class="log-empty">No messages sent yet.</div></div>
         </div>
       </div>
-      <div id="send-status"></div>
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="sendWebhook()">Send Message</button>
-        <button class="btn btn-ghost btn-sm" onclick="clearForm()">Clear</button>
+
+      <!-- 右：Discordプレビュー -->
+      <div style="position:sticky;top:80px;">
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div style="background:#1e1f22;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:8px;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#ff4040;"></div>
+            <span style="font-size:0.72rem;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;">Discord Preview</span>
+          </div>
+          <!-- Discord風チャンネル背景 -->
+          <div style="background:#313338;min-height:400px;padding:16px 16px 20px;font-family:'gg sans','Noto Sans',sans-serif;">
+            <div id="dc-preview">
+              <div style="color:rgba(255,255,255,0.2);font-size:0.82rem;text-align:center;padding:30px 0;">Start typing to see preview...</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;"><span>Send Log</span><button class="btn btn-ghost btn-sm" onclick="clearLog()">Clear</button></div>
-      <div class="log-list" id="log-list"><div class="log-empty">No messages sent yet.</div></div>
-    </div>
+
+    </div><!-- /grid -->
   </div>
 </div>
 
@@ -565,21 +648,203 @@ renderLH();
 // ══ WEBHOOK ══
 let wh=JSON.parse(localStorage.getItem('doy_webhooks')||'[]');
 let lg=JSON.parse(localStorage.getItem('dut_logs')||'[]');
-function toggleAdvanced(){document.getElementById('adv-body').classList.toggle('open');document.getElementById('adv-arrow').classList.toggle('open');}
-document.getElementById('opt-embed').addEventListener('change',function(){document.getElementById('embed-section').style.display=this.checked?'block':'none';});
+let embedFields=[];
+
+function toggleEmbedFields(){
+  document.getElementById('embed-fields').style.display=document.getElementById('opt-embed').checked?'block':'none';
+}
+
+function updateCount(){
+  const v=document.getElementById('msg-content').value.length;
+  document.getElementById('content-count').textContent=v+' / 2000';
+}
+
+// ── Field管理 ──
+function addEmbedField(){
+  const id=Date.now();
+  embedFields.push({id,name:'',value:'',inline:false});
+  renderEmbedFields();
+}
+function removeEmbedField(id){
+  embedFields=embedFields.filter(f=>f.id!==id);
+  renderEmbedFields();
+  updatePreview();
+}
+function renderEmbedFields(){
+  const c=document.getElementById('embed-fields-list');
+  c.innerHTML=embedFields.map(f=>`
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,80,80,0.12);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;">
+      <div style="display:flex;gap:8px;align-items:flex-start;">
+        <div style="flex:1;"><label style="margin:0 0 4px;">Name</label><input type="text" value="${f.name}" placeholder="Field name" oninput="updateField(${f.id},'name',this.value)" style="margin:0;"/></div>
+        <button class="btn-del" onclick="removeEmbedField(${f.id})" style="margin-top:20px;">✕</button>
+      </div>
+      <div><label style="margin:0 0 4px;">Value</label><textarea placeholder="Field value" oninput="updateField(${f.id},'value',this.value)" style="min-height:50px;margin:0;">${f.value}</textarea></div>
+      <label style="margin:0;display:flex;align-items:center;gap:6px;cursor:pointer;"><input type="checkbox" ${f.inline?'checked':''} onchange="updateField(${f.id},'inline',this.checked)" style="accent-color:#ff3030;width:13px;height:13px;"/><span style="font-size:0.78rem;color:rgba(255,255,255,0.5);">Inline</span></label>
+    </div>
+  `).join('');
+}
+function updateField(id,key,val){
+  const f=embedFields.find(x=>x.id===id);
+  if(f){f[key]=val;updatePreview();}
+}
+
+// ── Discord Preview ──
+function parseDiscordMd(t){
+  if(!t)return '';
+  return t
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/~~(.+?)~~/g,'<s>$1</s>')
+    .replace(/`(.+?)`/g,'<code style="background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px;font-family:monospace;font-size:0.85em;">$1</code>')
+    .replace(/
+/g,'<br>');
+}
+
+function updatePreview(){
+  const uname = document.getElementById('adv-username').value.trim()||'DOY Bot';
+  const avatar= document.getElementById('adv-avatar').value.trim();
+  const content= document.getElementById('msg-content').value;
+  const useEmbed= document.getElementById('opt-embed').checked;
+  const emTitle= document.getElementById('emb-title').value.trim();
+  const emDesc = document.getElementById('emb-desc').value.trim();
+  const emColor= document.getElementById('emb-color').value;
+  const emAuthor=document.getElementById('emb-author').value.trim();
+  const emAuthorIcon=document.getElementById('emb-author-icon').value.trim();
+  const emImage= document.getElementById('emb-image').value.trim();
+  const emThumb= document.getElementById('emb-thumb').value.trim();
+  const emFooter=document.getElementById('emb-footer').value.trim();
+  const emFooterIcon=document.getElementById('emb-footer-icon').value.trim();
+  const emUrl  = document.getElementById('emb-url').value.trim();
+
+  const hasContent = content.trim();
+  const hasEmbed = useEmbed && (emTitle||emDesc||emAuthor||emImage||embedFields.length);
+  if(!hasContent && !hasEmbed){
+    document.getElementById('dc-preview').innerHTML='<div style="color:rgba(255,255,255,0.2);font-size:0.82rem;text-align:center;padding:30px 0;">Start typing to see preview...</div>';
+    return;
+  }
+
+  const now=new Date();
+  const timeStr=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+
+  // Avatar
+  const avHtml = avatar
+    ? `<img src="${avatar}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div style="display:none;width:40px;height:40px;border-radius:50%;background:#cc0000;align-items:center;justify-content:center;font-weight:700;font-size:1rem;">${uname[0]||'D'}</div>`
+    : `<div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#cc0000,#660000);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;flex-shrink:0;">${uname[0]||'D'}</div>`;
+
+  // Message content
+  const contentHtml = hasContent
+    ? `<div style="color:#dcddde;font-size:0.9rem;line-height:1.55;margin-top:4px;word-break:break-word;">${parseDiscordMd(content)}</div>` : '';
+
+  // Embed
+  let embedHtml='';
+  if(useEmbed){
+    const fieldsInline=embedFields.filter(f=>f.inline);
+    const fieldsBlock =embedFields.filter(f=>!f.inline);
+    const fieldsHtml=embedFields.length?`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;">${embedFields.map(f=>f.inline?`<div><div style="font-size:0.8rem;font-weight:700;color:#fff;margin-bottom:2px;">${parseDiscordMd(f.name)}</div><div style="font-size:0.82rem;color:#dcddde;">${parseDiscordMd(f.value)}</div></div>`:``).join('')}</div>`+`<div style="display:flex;flex-direction:column;gap:4px;margin-top:4px;">${embedFields.filter(f=>!f.inline).map(f=>`<div><div style="font-size:0.8rem;font-weight:700;color:#fff;margin-bottom:1px;">${parseDiscordMd(f.name)}</div><div style="font-size:0.82rem;color:#dcddde;">${parseDiscordMd(f.value)}</div></div>`).join('')}</div>`:'';
+    const authorHtml=emAuthor?`<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">${emAuthorIcon?`<img src="${emAuthorIcon}" style="width:20px;height:20px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'"/>`:''}${'<span style="font-size:0.82rem;font-weight:600;color:#fff;">'+emAuthor+'</span>'}</div>`:'';
+    const titleHtml=emTitle?`<div style="font-size:0.9rem;font-weight:700;color:${emUrl?'#00b0f4':'#fff'};margin-bottom:4px;">${emUrl?`<a href="${emUrl}" target="_blank" style="color:#00b0f4;text-decoration:none;">${emTitle}</a>`:emTitle}</div>`:'';
+    const descHtml=emDesc?`<div style="font-size:0.85rem;color:#dcddde;line-height:1.5;margin-bottom:6px;">${parseDiscordMd(emDesc)}</div>`:'';
+    const thumbHtml=emThumb?`<img src="${emThumb}" style="width:80px;height:80px;border-radius:4px;object-fit:cover;float:right;margin-left:12px;" onerror="this.style.display='none'"/>`:'';
+    const imageHtml=emImage?`<img src="${emImage}" style="width:100%;max-width:400px;border-radius:4px;margin-top:10px;display:block;" onerror="this.style.display='none'"/>` :'';
+    const footerHtml=emFooter?`<div style="display:flex;align-items:center;gap:6px;margin-top:8px;">${emFooterIcon?`<img src="${emFooterIcon}" style="width:16px;height:16px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'"/>`:''}${'<span style="font-size:0.75rem;color:rgba(255,255,255,0.45);">'+emFooter+'</span>'}</div>`:'';
+
+    embedHtml=`<div style="display:flex;margin-top:6px;max-width:440px;">
+      <div style="width:4px;background:${emColor};border-radius:4px 0 0 4px;flex-shrink:0;"></div>
+      <div style="background:#2b2d31;border-radius:0 4px 4px 0;padding:10px 12px;flex:1;overflow:hidden;">
+        ${thumbHtml}${authorHtml}${titleHtml}${descHtml}${fieldsHtml}${imageHtml}${footerHtml}
+        <div style="clear:both;"></div>
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('dc-preview').innerHTML=`
+    <div style="display:flex;gap:14px;align-items:flex-start;">
+      <div style="flex-shrink:0;">${avHtml}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;">
+          <span style="font-weight:700;font-size:0.9rem;color:#fff;">${uname}</span>
+          <span style="background:#5865f2;color:#fff;font-size:0.6rem;padding:1px 5px;border-radius:3px;font-weight:700;">BOT</span>
+          <span style="font-size:0.72rem;color:rgba(255,255,255,0.3);">Today at ${timeStr}</span>
+        </div>
+        ${contentHtml}
+        ${embedHtml}
+      </div>
+    </div>`;
+}
+
+// ── Webhook管理 ──
 function saveWebhook(){const n=document.getElementById('new-name').value.trim(),u=document.getElementById('new-url').value.trim();if(!n||!u){alert('Name and URL required.');return;}if(!u.startsWith('https://discord.com/api/webhooks/')){alert('Invalid Discord Webhook URL.');return;}wh.push({id:Date.now(),name:n,url:u});localStorage.setItem('doy_webhooks',JSON.stringify(wh));document.getElementById('new-name').value='';document.getElementById('new-url').value='';renderWH();}
 function deleteWebhook(id){wh=wh.filter(w=>w.id!==id);localStorage.setItem('doy_webhooks',JSON.stringify(wh));renderWH();}
 function selectWebhook(id){document.querySelectorAll('.webhook-item').forEach(e=>e.classList.remove('active'));document.querySelector(`.webhook-item[data-id="${id}"]`)?.classList.add('active');document.getElementById('target-webhook').value=id;}
 function renderWH(){const l=document.getElementById('webhook-list'),s=document.getElementById('target-webhook');s.innerHTML='<option value="">— Select a saved webhook —</option>';if(!wh.length){l.innerHTML='<div class="log-empty">No webhooks saved yet.</div>';return;}l.innerHTML=wh.map(w=>`<div class="webhook-item" data-id="${w.id}" onclick="selectWebhook(${w.id})"><div class="webhook-dot"></div><div class="webhook-name">${w.name}</div><div class="webhook-url-preview">${w.url}</div><button class="btn-del" onclick="event.stopPropagation();deleteWebhook(${w.id})">✕</button></div>`).join('');wh.forEach(w=>{const o=document.createElement('option');o.value=w.id;o.textContent=w.name;s.appendChild(o);});}
 document.getElementById('target-webhook').addEventListener('change',function(){const id=parseInt(this.value);if(id)selectWebhook(id);});
-async function sendWebhook(){const sid=parseInt(document.getElementById('target-webhook').value),hook=wh.find(w=>w.id===sid);if(!hook){showSt('error','Select a webhook first.');return;}const cnt=document.getElementById('msg-content').value.trim(),emb=document.getElementById('opt-embed').checked;if(!cnt&&!emb){showSt('error','Message is empty.');return;}const pay={};if(cnt)pay.content=document.getElementById('opt-mention-everyone').checked?'@everyone '+cnt:cnt;if(document.getElementById('opt-tts').checked)pay.tts=true;const u=document.getElementById('adv-username').value.trim(),av=document.getElementById('adv-avatar').value.trim();if(u)pay.username=u;if(av)pay.avatar_url=av;let f=0;if(document.getElementById('opt-suppress').checked)f|=1<<2;if(document.getElementById('opt-silent').checked)f|=1<<12;if(f)pay.flags=f;if(emb){const eb={};const t=document.getElementById('emb-title').value.trim(),d=document.getElementById('emb-desc').value.trim(),a=document.getElementById('emb-author').value.trim(),ft=document.getElementById('emb-footer').value.trim(),im=document.getElementById('emb-image').value.trim(),th=document.getElementById('emb-thumb').value.trim();if(t)eb.title=t;if(d)eb.description=d;if(a)eb.author={name:a};if(ft)eb.footer={text:ft};if(im)eb.image={url:im};if(th)eb.thumbnail={url:th};eb.color=parseInt(document.getElementById('emb-color').value.replace('#',''),16);pay.embeds=[eb];}showSt('loading','Sending...');try{const r=await fetch(hook.url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(pay)});const pv=cnt||(emb?'[Embed]':'');if(r.ok||r.status===204){showSt('success',`Sent to "${hook.name}"`);addLog('ok',hook.name,pv);}else{const er=await r.json().catch(()=>({}));showSt('error',`Error ${r.status}: ${er.message||'Unknown'}`);addLog('fail',hook.name,pv);}}catch(e){showSt('error','Network error: '+e.message);addLog('fail',hook.name,cnt||'[Embed]');}}
+
+// ── Send ──
+async function sendWebhook(){
+  const sid=parseInt(document.getElementById('target-webhook').value),hook=wh.find(w=>w.id===sid);
+  if(!hook){showSt('error','Select a webhook first.');return;}
+  const cnt=document.getElementById('msg-content').value.trim();
+  const emb=document.getElementById('opt-embed').checked;
+  if(!cnt&&!emb){showSt('error','Message is empty.');return;}
+  const pay={};
+  if(cnt)pay.content=document.getElementById('opt-mention-everyone').checked?'@everyone '+cnt:cnt;
+  if(document.getElementById('opt-tts').checked)pay.tts=true;
+  const u2=document.getElementById('adv-username').value.trim(),av2=document.getElementById('adv-avatar').value.trim();
+  if(u2)pay.username=u2;if(av2)pay.avatar_url=av2;
+  let f=0;if(document.getElementById('opt-suppress').checked)f|=1<<2;if(document.getElementById('opt-silent').checked)f|=1<<12;if(f)pay.flags=f;
+  if(emb){
+    const eb={};
+    const t2=document.getElementById('emb-title').value.trim(),d2=document.getElementById('emb-desc').value.trim();
+    const a2=document.getElementById('emb-author').value.trim(),ai=document.getElementById('emb-author-icon').value.trim();
+    const ft=document.getElementById('emb-footer').value.trim(),fi=document.getElementById('emb-footer-icon').value.trim();
+    const im=document.getElementById('emb-image').value.trim(),th=document.getElementById('emb-thumb').value.trim();
+    const eu=document.getElementById('emb-url').value.trim();
+    if(t2)eb.title=t2;if(d2)eb.description=d2;if(eu)eb.url=eu;
+    if(a2)eb.author={name:a2,...(ai&&{icon_url:ai})};
+    if(ft)eb.footer={text:ft,...(fi&&{icon_url:fi})};
+    if(im)eb.image={url:im};if(th)eb.thumbnail={url:th};
+    if(embedFields.length)eb.fields=embedFields.map(x=>({name:x.name,value:x.value,inline:x.inline}));
+    eb.color=parseInt(document.getElementById('emb-color').value.replace('#',''),16);
+    pay.embeds=[eb];
+  }
+  showSt('loading','Sending...');
+  try{
+    const r=await fetch(hook.url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(pay)});
+    const pv=cnt||(emb?'[Embed]':'');
+    if(r.ok||r.status===204){showSt('success',`Sent to "${hook.name}"`);addLog('ok',hook.name,pv);}
+    else{const er=await r.json().catch(()=>({}));showSt('error',`Error ${r.status}: ${er.message||'Unknown'}`);addLog('fail',hook.name,pv);}
+  }catch(e){showSt('error','Network error: '+e.message);addLog('fail',hook.name,cnt||'[Embed]');}
+}
 function showSt(t,m){const e=document.getElementById('send-status');e.className=t;e.textContent=m;e.style.display='block';if(t==='success')setTimeout(()=>e.style.display='none',4000);}
-function clearForm(){document.getElementById('msg-content').value='';document.querySelectorAll('.options-grid input[type="checkbox"]').forEach(c=>c.checked=false);document.getElementById('embed-section').style.display='none';document.getElementById('adv-username').value='';document.getElementById('adv-avatar').value='';const e=document.getElementById('send-status');e.className='';e.style.display='none';}
+function clearForm(){
+  document.getElementById('msg-content').value='';
+  document.getElementById('adv-username').value='';
+  document.getElementById('adv-avatar').value='';
+  document.getElementById('opt-tts').checked=false;
+  document.getElementById('opt-silent').checked=false;
+  document.getElementById('opt-suppress').checked=false;
+  document.getElementById('opt-mention-everyone').checked=false;
+  document.getElementById('opt-embed').checked=false;
+  document.getElementById('emb-title').value='';document.getElementById('emb-desc').value='';
+  document.getElementById('emb-author').value='';document.getElementById('emb-author-icon').value='';
+  document.getElementById('emb-url').value='';document.getElementById('emb-color').value='#cc0000';
+  document.getElementById('emb-image').value='';document.getElementById('emb-thumb').value='';
+  document.getElementById('emb-footer').value='';document.getElementById('emb-footer-icon').value='';
+  document.getElementById('embed-fields').style.display='none';
+  embedFields=[];renderEmbedFields();
+  const e=document.getElementById('send-status');e.className='';e.style.display='none';
+  updatePreview();updateCount();
+}
 function addLog(s,n,p){const now=new Date();lg.unshift({status:s,name:n,preview:p,time:now.toLocaleTimeString('ja-JP'),date:now.toLocaleDateString('ja-JP')});if(lg.length>100)lg.pop();localStorage.setItem('dut_logs',JSON.stringify(lg));renderLG();}
 function clearLog(){lg=[];localStorage.setItem('dut_logs','[]');renderLG();}
 function renderLG(){const l=document.getElementById('log-list');if(!lg.length){l.innerHTML='<div class="log-empty">No messages sent yet.</div>';return;}l.innerHTML=lg.map(x=>`<div class="log-item ${x.status}"><div class="log-top"><span class="log-badge ${x.status}">${x.status==='ok'?'SUCCESS':'FAILED'}</span><span class="log-webhook">${x.name}</span><span class="log-time">${x.date} ${x.time}</span></div><div class="log-preview">${x.preview||'—'}</div></div>`).join('');}
 renderWH();
 renderLG();
+// レスポンシブ対応
+(function(){const style=document.createElement('style');style.textContent='@media(max-width:900px){#wh-grid{grid-template-columns:1fr !important;}}';document.head.appendChild(style);})();
+
 </script>
 </body>
 </html>
