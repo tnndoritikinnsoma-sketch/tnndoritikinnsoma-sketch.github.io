@@ -12,6 +12,8 @@
 
     /* ── Pages ── */
     .page{position:relative;z-index:1;min-height:100vh;display:none;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 60px;gap:28px;}
+    #page-webhook{align-items:stretch !important;}
+    #page-webhook.active{display:flex !important;}
     .page.active{display:flex;animation:fadeIn 0.3s ease;}
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
     .page-wide{justify-content:flex-start;align-items:stretch;max-width:900px;margin:0 auto;width:100%;}
@@ -265,7 +267,7 @@
 </div>
 
 <!-- ══ WEBHOOK ══ -->
-<div class="page" id="page-webhook" style="padding:70px 0 40px;align-items:stretch;max-width:100%;width:100%;">
+<div class="page" id="page-webhook" style="position:relative;z-index:1;min-height:100vh;display:none;flex-direction:column;align-items:stretch;justify-content:flex-start;padding:80px 20px 60px;gap:28px;">
   <div style="max-width:1400px;margin:0 auto;width:100%;padding:0 20px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px;">
       <div>
@@ -487,7 +489,12 @@ const COLORS = ['rgba(255,50,50,A)','rgba(200,0,0,A)','rgba(255,110,110,A)','rgb
 let introTid = null;
 
 function buildIntro() {
+  const overlay = document.getElementById('intro-overlay');
   const el = document.getElementById('intro-words');
+  if(!overlay || !el) return;
+  // 確実に表示
+  overlay.style.display = 'flex';
+  overlay.style.opacity = '1';
   el.innerHTML = '';
   const sizes = [0.7,0.9,1.1,1.4,1.7,2.1,2.6];
   for (let i = 0; i < 40; i++) {
@@ -502,7 +509,7 @@ function buildIntro() {
     const rot = ((Math.random()-0.5)*28).toFixed(1)+'deg';
     const a   = (0.1+Math.random()*0.4).toFixed(2);
     const clr = COLORS[Math.floor(Math.random()*COLORS.length)].replace('A',a);
-    d.style.cssText = `font-size:${sz}rem;left:${lft}%;bottom:-10%;color:${clr};--dx:${dx};--r:${rot};--a:${a};animation-duration:${dur}s;animation-delay:${del}s;`;
+    d.style.cssText = 'font-size:'+sz+'rem;left:'+lft+'%;bottom:-10%;color:'+clr+';--dx:'+dx+';--r:'+rot+';--a:'+a+';animation-duration:'+dur+'s;animation-delay:'+del+'s;';
     el.appendChild(d);
   }
 }
@@ -510,9 +517,10 @@ function buildIntro() {
 function skipIntro() {
   clearTimeout(introTid);
   const o = document.getElementById('intro-overlay');
-  o.style.transition = 'opacity 0.7s ease';
+  if(!o) return;
+  o.style.transition = 'opacity 0.8s ease';
   o.style.opacity = '0';
-  setTimeout(() => o.classList.add('done'), 750);
+  setTimeout(function() { o.style.display = 'none'; }, 850);
 }
 
 // ══ ROUTER ══
